@@ -1,0 +1,131 @@
+@import './quasar-variables.sass';
+
+* {
+  caret-color: transparent;
+}
+
+/** Global Definite **/
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: $dark; 
+  border-radius: 10px;
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: $accent; 
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: $primary; 
+}
+/** End of Global Definite **/
+
+/** Overide **/
+code {
+  font-family: 'Courier Prime', monospace !important;
+  // font-family: $typography-font-family;
+  white-space: pre-wrap;
+  word-break: break-word;
+  color: orange;
+
+  .key {
+    color: $primary;
+  }
+
+  .string {
+    color: $positive;
+  }
+
+  .number, .null {
+    color: $negative;
+  }
+
+  .boolean {
+    color: $warning;
+  }
+}
+
+.q-field--dark {
+  &.q-field--focused {
+    .q-field__label {
+      color: $dark;
+    }
+  }
+}
+
+blockquote {
+  position: relative;
+  padding: 20px 30px;
+  margin: 0;
+
+  &::before {
+    content: '"';
+    font-size: 15rem;
+    position: absolute;
+    top: -85px;
+    left: -30px;
+    opacity: .2; 
+  }
+
+  span {
+    font-style: italic;
+    line-height: 1.5rem;
+    word-spacing: 0.1rem;
+  }
+
+  p {
+    text-align: right;
+    font-size: 1.2rem;
+    margin-top: 5px;
+    margin-bottom: 0px;
+
+    &::before {
+      content: "+";
+      margin-right: 10px;
+    }
+  }
+}
+/** End of Overide **/
+
+/** Utility **/
+
+@mixin margin-classes {
+  @for $i from 0 through $utility-sizes {
+     $margin: $i * 0.25em;
+    /* margin #{$margin} */
+    .ma-#{$i} {margin: $margin !important;}
+    .ml-#{$i} {margin-left: $margin !important;}
+    .mr-#{$i} {margin-right: $margin !important;}
+    .mt-#{$i} {margin-top: $margin !important;}
+    .mb-#{$i} {margin-bottom: $margin !important;}
+    .mx-#{$i} {margin-left: $margin !important; margin-right: $margin !important;}
+    .my-#{$i} {margin-top: $margin !important; margin-bottom: $margin !important;}
+  }
+}
+@include margin-classes;
+
+
+@mixin padding-classes {
+  @for $i from 0 through $utility-sizes {
+    $padding: $i * 0.5em;
+    /* padding #{$padding} */
+    .pa-#{$i} {padding: $padding !important;}
+    .pl-#{$i} {padding-left: $padding !important;}
+    .pr-#{$i} {padding-right: $padding !important;}
+    .pt-#{$i} {padding-top: $padding !important;}
+    .pb-#{$i} {padding-bottom: $padding !important;}
+    .px-#{$i} {padding-left: $padding !important; padding-right: $padding !important;}
+    .py-#{$i} {padding-top: $padding !important; padding-bottom: $padding !important;}
+  }
+}
+@include padding-classes;
+/** End of Utility **/

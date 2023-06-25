@@ -1,0 +1,290 @@
+{
+  "projects": [
+    {
+      "id": 2,
+      "name": "GS Living",
+      "link": "https://greatersydneyliving.com.au/",
+      "code": "#",
+      "img": "@/assets/screenshots/gsliving.png",
+      "responsibilities": [
+        "Frontend"
+      ],
+      "tools": [
+        "CSS",
+        "Javascript",
+        "LESS",
+        "UIkit"
+      ],
+      "type": "Employment",
+      "description": "Front end development",
+      "color": "green-card",
+      "base": "md-primary"
+    },
+    {
+      "id": 3,
+      "name": "Super Student HQ",
+      "link": "https://sshq.cre8iv.click/",
+      "code": "#",
+      "img": "@/assets/screenshots/superstudent.png",
+      "responsibilities": [
+        "Frontend"
+      ],
+      "tools": [
+        "CSS",
+        "Javascript",
+        "LESS",
+        "UIkit"
+      ],
+      "type": "Employment",
+      "description": "Front end development",
+      "color": "orange-card",
+      "base": "md-accent"
+    },
+    {
+      "id": 4,
+      "name": "Ecoplant Australia",
+      "link": "https://ecoplantaustralia.com.au/",
+      "code": "#",
+      "img": "@/assets/screenshots/ecoplant.png",
+      "responsibilities": [
+        "Frontend"
+      ],
+      "tools": [
+        "CSS",
+        "Javascript",
+        "LESS",
+        "UIkit"
+      ],
+      "type": "Employment",
+      "description": "Front end development",
+      "color": "green-card",
+      "base": "md-primary"
+    },
+    {
+      "id": 5,
+      "name": "Online Expert",
+      "link": "https://oexpert.cre8iv.click/",
+      "code": "#",
+      "img": "@/assets/screenshots/oexpert.png",
+      "responsibilities": [
+        "Frontend"
+      ],
+      "tools": [
+        "CSS",
+        "Javascript",
+        "LESS",
+        "UIkit"
+      ],
+      "type": "Employment",
+      "description": "Front end development",
+      "color": "orange-card",
+      "base": "md-accent"
+    },
+    {
+      "id": 6,
+      "name": "Sue Tsigaros",
+      "link": "https://suetsigaros.cre8iv.click/",
+      "code": "#",
+      "img": "@/assets/screenshots/sue.png",
+      "responsibilities": [
+        "Frontend"
+      ],
+      "tools": [
+        "CSS",
+        "Javascript",
+        "LESS",
+        "UIkit"
+      ],
+      "type": "Employment",
+      "description": "Front end development",
+      "color": "purple-card",
+      "base": "md-primary"
+    },
+    {
+      "id": 7,
+      "name": "Cost Miner",
+      "link": "https://cm.cre8iv.click/",
+      "code": "#",
+      "img": "@/assets/screenshots/costminer.png",
+      "responsibilities": [
+        "Frontend"
+      ],
+      "tools": [
+        "CSS",
+        "Javascript",
+        "LESS",
+        "UIkit"
+      ],
+      "type": "Employment",
+      "description": "Front end development",
+      "color": "green-card",
+      "base": "md-accent"
+    },
+    {
+      "id": 8,
+      "name": "Photopro Website",
+      "link": "http://photoprotrading.com",
+      "code": "#",
+      "img": "@/assets/screenshots/photopro.png",
+      "responsibilities": [
+        "Backend",
+        "Frontend",
+        "Deployment"
+      ],
+      "tools": [
+        "Laravel 5.5",
+        "VueJS",
+        "Bootstrap"
+      ],
+      "type": "Freelance",
+      "description": "From the ground up, development to deployment, backend to frontend",
+      "color": "orange-card",
+      "base": "md-primary"
+    },
+    {
+      "id": 9,
+      "name": "Cased Dimensions Microsite",
+      "link": "http://servicemanagerapps.com",
+      "code": "#",
+      "img": "@/assets/screenshots/service.png",
+      "responsibilities": [
+        "Backend",
+        "Frontend",
+        "Deployment",
+        "API Integration"
+      ],
+      "tools": [
+        "Laravel 5.6",
+        "OctoberCMS",
+        "Javascript",
+        "Bootstrap"
+      ],
+      "type": "Employment",
+      "description": "Having used OctoberCMS (Built on top of Laravel) countless of times for a handful of sites, we as a team has had to know all the details and parts of this app and the inner workings of the cms. From API integrations, like google\"s captcha, chatbot, email, currency api, cookies and etc.",
+      "color": "purple-card",
+      "base": "md-accent"
+    },
+    {
+      "id": 10,
+      "name": "Onlinekeycodes Site",
+      "link": "http://onlinekeycodes.com",
+      "code": "#",
+      "img": "@/assets/screenshots/keycodes.png",
+      "responsibilities": [
+        "Backend",
+        "Deployment",
+        "API Integration"
+      ],
+      "tools": [
+        "Laravel 5.5",
+        "VueJS",
+        "Materialize"
+      ],
+      "type": "Freelance",
+      "description": "N/A",
+      "color": "",
+      "base": "md-primary"
+    },
+    {
+      "id": 11,
+      "name": "SOS Network Davao Site",
+      "link": "#",
+      "code": "#",
+      "img": "@/assets/screenshots/saveourschool.png",
+      "responsibilities": [
+        "Backend",
+        "Frontend",
+        "Deployment",
+        "API Development"
+      ],
+      "tools": [
+        "Laravel 5.5",
+        "Cordova",
+        "Bootstrap"
+      ],
+      "type": "Capstone",
+      "description": "A management information system the helps manage administrators and users, blog posts, data files and information within the organization. A separate application for android the pulls data from the web app api to send text messages.",
+      "color": "green-card",
+      "base": "md-accent"
+    },
+    {
+      "id": 12,
+      "name": "Quizz App",
+      "link": "https://sanzmoses.github.io/quizzapp",
+      "code": "https://github.com/sanzmoses/quizzapp",
+      "img": "@/assets/screenshots/quizzapp.png",
+      "responsibilities": [
+        "Frontend"
+      ],
+      "tools": [
+        "Javascript",
+        "JQuery"
+      ],
+      "type": "Sample",
+      "description": "Practice Quiz App using javascript",
+      "color": "",
+      "base": "md-primary"
+    },
+    {
+      "id": 13,
+      "name": "Wiki App",
+      "link": "https://sanzmoses.github.io/wiki",
+      "code": "https://github.com/sanzmoses/wiki",
+      "img": "@/assets/screenshots/wiki.png",
+      "responsibilities": [
+        "Frontend"
+      ],
+      "tools": [
+        "Javascript",
+        "JQuery"
+      ],
+      "type": "Sample",
+      "description": "Practice App integrating Wikipedia API",
+      "color": "orange-card",
+      "base": "md-accent"
+    },
+    {
+      "id": 14,
+      "name": "Weather App",
+      "link": "https://sanzmoses.github.io/wep",
+      "code": "https://github.com/sanzmoses/wep",
+      "img": "@/assets/screenshots/wep.png",
+      "responsibilities": [
+        "Frontend"
+      ],
+      "tools": [
+        "Javascript",
+        "JQuery"
+      ],
+      "type": "Sample",
+      "description": "Practice App integrating Weather API Darksky",
+      "color": "purple-card",
+      "base": "md-primary"
+    }
+  ],
+  "skills": [
+    {
+      "id": 1,
+      "name": "HTML",
+      "logo": "fab fa-html5",
+      "exp": "24",
+      "skillLevel": 80,
+      "color": "#F0652A",
+      "tags": [
+        "general"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "CSS",
+      "logo": "fab fa-css3-alt",
+      "exp": "24",
+      "skillLevel": 90,
+      "color": "#3BADF3",
+      "tags": [
+        "general",
+        "frontend"
+      ]
+    }
+  ]
+}
