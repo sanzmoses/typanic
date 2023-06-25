@@ -1,7 +1,7 @@
 <template>
   <div class="game-proper">
     <h4 class="ma-0">Typanic</h4>
-    <p><a href="http://sanz.ml" target="_blank">By Sanz</a></p>
+    <p>By <a class="portfolio-link" href="http://sanz.ml" target="_blank">Sanz</a></p>
 
     <div 
       class="game-box" 
@@ -122,5 +122,11 @@ export default {
   width: 100%;
   height: 100%;
   opacity: 0;
+}
+
+.portfolio-link {
+  color: #2f90ff;
+  font-style: none;
+  text-decoration: none;
 }
 </style>
