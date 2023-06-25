@@ -3,15 +3,18 @@ import _ from 'lodash'
 
 export const useRuntimeStore = defineStore('RuntimeStore', {
   state: () => ({
-    speed: 20,
-    count: 10,
+    count: 100,
     score: 0,
     hp: 100,
-    score_per_word: 10,
     level: 1,
+    level_speed: 15, // 20 - 5
+    word_difficulty: {
+      min: 50000, // 10000
+      max: 200000 // 274000
+    },
     spawn: {
-      volume: 1,
-      delay: 5,
+      volume: 1, // 1 - .01
+      delay: 5, // 5 - 1
     },
     prepared_words: [],
     registered_word: "",

@@ -1,6 +1,7 @@
 <template>
-  <div class="">
-    <h3>Typing game</h3>
+  <div class="game-proper">
+    <h4 class="ma-0">Typanic</h4>
+    <p><a href="http://sanz.ml" target="_blank">By Sanz</a></p>
 
     <div 
       class="game-box" 
@@ -10,7 +11,7 @@
       }"
     >
       <template v-for="word in word_display" :key="word">
-        <WordTile :word="word" :input_string="input_string" />
+        <WordTile :word="word" :input_string="input_string" @removeWord="removeWordFromDisplay" />
       </template>
 
       <div class="input-string">
@@ -30,7 +31,6 @@
 import Projects from "../components/Home/Projects/index.vue"
 import WordTile from "@/components/WordTile.vue"
 
-import { getData } from '@/composables/themes.js'
 import { getSetup } from '@/composables/setup.js'
 
 import { useRuntimeStore } from '@/stores/RuntimeStore'
@@ -44,36 +44,25 @@ export default {
     WordTile
   },
   setup() {
-    const { setup } = getSetup()
-    const { words } = getData()
+
+    const { setup, grabHundredWords } = getSetup()
     const word_display = ref([])
     const runtime = useRuntimeStore()
 
-    const { count, spawn } = runtime;
-
     const input_string = ref('')
 
-    runtime.setPreparedWords([
-      'typing',
-      'setup',
-      'seething',
-      'looming',
-      'devastation',
-      'incantation',
-      'extravagant',
-      'justice',
-      'separation',
-      'extract',
-    ])
+    runtime.setPreparedWords(grabHundredWords())
 
     onMounted(() => {
-      addWords();
+      setTimeout(() => {
+        addWords();
+      }, 1000)
     })
 
     const addWords = () => {
-      if(word_display.value.length >= count) return;
-
-      let delay = _.random(spawn.volume * 1000, spawn.delay * 1000);
+      if(runtime.prepared_words.length === 0) return;
+      
+      let delay = _.random(runtime.spawn.volume * 1000, runtime.spawn.delay * 1000);
       
       word_display.value.push(runtime.getWord())
 
@@ -85,27 +74,28 @@ export default {
     }
 
     const submitString = () => {
-      const index = word_display.value.findIndex(x => {
-        return x === input_string.value
-      })
-      
-      console.log(index, 'index')
-
-      if(index >= 0) {
-        // find if theres
-        word_display.value.splice(index, 1)
-      }
+      removeWordFromDisplay(input_string.value)
       
       runtime.setRegisteredWord(input_string.value)
       input_string.value = ""
+    }
+
+    const removeWordFromDisplay = (word) => {
+      const index = word_display.value.findIndex(x => {
+        return x === word
+      })
+      
+      if(index >= 0) {
+        word_display.value.splice(index, 1)
+      }
     }
     
     return { 
       word_display,
       gamebox: setup,
-      words,
       input_string,
-      submitString
+      submitString,
+      removeWordFromDisplay
     }
   }
 }
@@ -116,6 +106,7 @@ export default {
   position: relative;
   display: inline-block;
   background-color: #000000;
+  overflow: hidden;
 }
 
 .input-string {
