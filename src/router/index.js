@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router' 
 
-import Home from '../views/Home.vue'
+import Home from '../views/GameProper/index.vue'
 import About from '../views/About/index.vue'
 import Components from '../views/Components/index.vue'
 

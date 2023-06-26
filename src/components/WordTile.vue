@@ -61,8 +61,12 @@ export default {
     })
 
     watch(registered_word, () => {
+      // typed word correctly
       if(registered_word.value === props.word) {
+        runtime.processStringSubmission(props.word);
         drop_animation.kill();
+
+        return
       }
 
       if(word_hits >= 5) {
@@ -87,7 +91,8 @@ export default {
         ease: 'none',
         duration: runtime.level_speed,
         onComplete: () => {
-          console.log("destroyed")
+          // missed words
+          runtime.processHP('drop', props.word)
           emit('removeWord', props.word)
         }
       }); 

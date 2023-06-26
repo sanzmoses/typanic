@@ -18,6 +18,8 @@ export const useRuntimeStore = defineStore('RuntimeStore', {
     },
     prepared_words: [],
     registered_word: "",
+    success: 0,
+    ignored: 0,
   }),
   actions: {
     // since we rely on `this`, we cannot use an arrow function
@@ -30,6 +32,23 @@ export const useRuntimeStore = defineStore('RuntimeStore', {
     },
     setRegisteredWord(word) {
       this.registered_word = word;
+    },
+    processStringSubmission(word) {
+      this.score += word.length;
+      this.success++;
+    },
+    processHP(cue, word) {
+      let hp_deduction = word.length - 10;
+      switch(cue) {
+        case 'heal': 
+          this.hp = 100;
+          break;
+        case 'drop':
+          this.ignored++;
+          this.hp += hp_deduction
+          break;
+        default: 
+      }
     }
   },
 })

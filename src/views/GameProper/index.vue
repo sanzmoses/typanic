@@ -1,35 +1,41 @@
 <template>
   <div class="game-proper">
-    <h4 class="ma-0">Typanic</h4>
-    <p>By <a class="portfolio-link" href="http://sanz.ml" target="_blank">Sanz</a></p>
+    <div>
+      <h4 class="ma-0">Typanic</h4>
+      <p>By <a class="portfolio-link" href="http://sanz.ml" target="_blank">Sanz</a></p>
 
-    <div 
-      class="game-box" 
-      :style="{
-        width: gamebox.width + 'px',
-        height: gamebox.height + 'px'
-      }"
-    >
-      <template v-for="word in word_display" :key="word">
-        <WordTile :word="word" :input_string="input_string" @removeWord="removeWordFromDisplay" />
-      </template>
+      <div 
+        class="game-box" 
+        :style="{
+          width: gamebox.width + 'px',
+          height: gamebox.height + 'px'
+        }"
+      >
+        <template v-for="word in word_display" :key="word">
+          <WordTile :word="word" :input_string="input_string" @removeWord="removeWordFromDisplay" />
+        </template>
 
-      <div class="input-string">
-        <span>{{ input_string }}</span>
+        <div class="input-string">
+          <span>{{ input_string }}</span>
+        </div>
+
+        <input 
+          class="game-input" 
+          v-model="input_string" 
+          @keyup.enter="submitString"
+        />
       </div>
-
-      <input 
-        class="game-input" 
-        v-model="input_string" 
-        @keyup.enter="submitString"
-      />
+    </div>
+    <div class="ml-10">
+      <Status />
     </div>
   </div>
+  
 </template>
 
 <script>
-import Projects from "../components/Home/Projects/index.vue"
 import WordTile from "@/components/WordTile.vue"
+import Status from "./Status/index.vue"
 
 import { getSetup } from '@/composables/setup.js'
 
@@ -38,10 +44,10 @@ import { ref, onMounted } from 'vue'
 import _ from 'lodash'
 
 export default {
-  name: 'Home',
+  name: 'GameProper',
   components: {
-    Projects,
-    WordTile
+    WordTile,
+    Status
   },
   setup() {
 
@@ -77,6 +83,7 @@ export default {
       removeWordFromDisplay(input_string.value)
       
       runtime.setRegisteredWord(input_string.value)
+      
       input_string.value = ""
     }
 
@@ -102,6 +109,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.game-proper {
+  min-width: 768px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
 .game-box {
   position: relative;
   display: inline-block;
