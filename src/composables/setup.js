@@ -6,10 +6,24 @@ import { useRuntimeStore } from '@/stores/RuntimeStore'
 export function getSetup() {
   const runtime = useRuntimeStore()
 
+  const power_tiles = [
+    { name: 'fire', color: 'red-10', icon: 'whatshot' },
+    { name: 'heal', color: 'green-14', icon: 'health_and_safety' },
+    { name: 'slow', color: 'purple-8', icon: 'ac_unit' },
+    { name: 'ice', color: 'blue-9', icon: 'hourglass_empty' },
+  ]
+
   const setup = ref({
     height: 600,
     width: 500,
-    highlight: '#d63845'
+    highlight: '#ffffff',
+    tile_color: 'amber-3',
+    tile_text: 'black',
+    chances: {
+      power_tile: 10,
+      faster_tile: 15,
+      double_speed: 5,
+    },
   })
 
   // 10,000 - 100,000 < - level 1
@@ -29,8 +43,33 @@ export function getSetup() {
     return words
   }
 
+  const grabPercent = (percentage) => {
+    return _.random(1, 100) < percentage
+  }
+
+  const grabPowerTile = () => {
+    const is_power_tile = grabPercent(setup.value.chances.power_tile)
+
+    if(is_power_tile) {
+      return power_tiles[_.random(1, 4)]
+    }
+
+    return null;
+  }
+
+  const isRelativelyFaster = () => {
+    return grabPercent(setup.value.chances.faster_tile)
+  }
+
+  const isDoubleSpeed = () => {
+    return grabPercent(setup.value.chances.double_speed)
+  }
+
   return {
     setup,
     grabHundredWords,
+    grabPowerTile,
+    isDoubleSpeed,
+    isRelativelyFaster
   }
 }

@@ -11,8 +11,8 @@
           height: gamebox.height + 'px'
         }"
       >
-        <template v-for="word in word_display" :key="word">
-          <WordTile :word="word" :input_string="input_string" @removeWord="removeWordFromDisplay" />
+        <template v-for="word in dropping_words" :key="word">
+          <WordTile :word="word" :input_string="input_string" />
         </template>
 
         <div class="input-string">
@@ -40,6 +40,8 @@ import Status from "./Status/index.vue"
 import { getSetup } from '@/composables/setup.js'
 
 import { useRuntimeStore } from '@/stores/RuntimeStore'
+import { storeToRefs } from 'pinia'
+
 import { ref, onMounted } from 'vue'
 import _ from 'lodash'
 
@@ -53,7 +55,9 @@ export default {
 
     const { setup, grabHundredWords } = getSetup()
     const word_display = ref([])
+
     const runtime = useRuntimeStore()
+    const { dropping_words } = storeToRefs(runtime)
 
     const input_string = ref('')
 
@@ -69,8 +73,8 @@ export default {
       if(runtime.prepared_words.length === 0) return;
       
       let delay = _.random(runtime.spawn.volume * 1000, runtime.spawn.delay * 1000);
-      
-      word_display.value.push(runtime.getWord())
+
+      runtime.dropWord();
 
       let debounce = _.debounce(() => {
         addWords();
@@ -80,29 +84,17 @@ export default {
     }
 
     const submitString = () => {
-      removeWordFromDisplay(input_string.value)
-      
       runtime.setRegisteredWord(input_string.value)
       
       input_string.value = ""
     }
-
-    const removeWordFromDisplay = (word) => {
-      const index = word_display.value.findIndex(x => {
-        return x === word
-      })
-      
-      if(index >= 0) {
-        word_display.value.splice(index, 1)
-      }
-    }
     
     return { 
       word_display,
+      dropping_words,
       gamebox: setup,
       input_string,
       submitString,
-      removeWordFromDisplay
     }
   }
 }

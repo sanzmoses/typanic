@@ -1,7 +1,8 @@
 <template>
-  <div class="tile" :id="word">
+  <q-chip class="tile border-none" square :id="word" :color="setup.tile_color" :text-color="setup.tile_text">
+    <q-avatar class="border-none" v-if="power_tile" :icon="power_tile.icon" :color="power_tile.color" text-color="white" />
     <p class="word ma-0" v-html="parse_word"></p>
-  </div>
+  </q-chip>
 </template>
 
 <script>
@@ -23,19 +24,23 @@ export default {
       type: String,
     }
   },
-  setup (props, { emit }) {
-    const { setup } = getSetup()
+  setup (props) {
+    const { setup, isRelativelyFaster, isDoubleSpeed, grabPowerTile } = getSetup()
     const runtime = useRuntimeStore()
     const { registered_word } = storeToRefs(runtime)
 
     let drop_animation = null;
-
     const max_width = setup.value.width
     const max_height = setup.value.height
     const x = ref(null)
-    const speed = ref(null)
+    // x position in the plane
+    x.value = _.random(1, max_width - 130)
 
-    x.value = _.random(1, max_width - 100)
+    // tile prop
+    const is_faster = isRelativelyFaster()
+    const fastest = isDoubleSpeed()
+    const power_tile = grabPowerTile()
+
     let word_hits = 0;
     let word_try = 0;
 
@@ -66,6 +71,7 @@ export default {
         runtime.processStringSubmission(props.word);
         drop_animation.kill();
 
+        runtime.removeWord(props.word)
         return
       }
 
@@ -87,22 +93,28 @@ export default {
       })
 
       drop_animation = gsap.to('#'+props.word, {
-        y: max_height - 40,
+        y: max_height - 30,
         ease: 'none',
         duration: runtime.level_speed,
         onComplete: () => {
           // missed words
           runtime.processHP('drop', props.word)
-          emit('removeWord', props.word)
+          runtime.removeWord(props.word)
         }
       }); 
+
+      if(is_faster) {
+        drop_animation.timeScale(1.5)
+      } else if(fastest) {
+        drop_animation.timeScale(2)
+      }
     })
 
     return {
-      gamebox: setup,
-      speed,
+      x,
+      setup,
       parse_word,
-      x
+      power_tile,      
     }
   },
 }
@@ -110,13 +122,15 @@ export default {
 
 <style lang="scss" scoped>
 .tile {
-  position: absolute;  
-  background-color: white;
-  padding: 5px 10px;
+  position: absolute;
+}
+
+.border-none {
+  border-radius: 0px !important;
 }
 
 .word {
-  color: black;
+  font-size: 15px;
 }
 
 </style>

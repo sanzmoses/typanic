@@ -62,7 +62,7 @@
     <q-chip square color="deep-orange" text-color="white" icon="directions">
       Get directions
     </q-chip>
-    <q-chip square>
+    <q-chip square color="red" text-color="#ffffff">
       <q-avatar icon="bookmark" color="red" text-color="white" />
       Bookmark
     </q-chip>
