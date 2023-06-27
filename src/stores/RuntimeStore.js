@@ -7,23 +7,33 @@ export const useRuntimeStore = defineStore('RuntimeStore', {
     score: 0,
     hp: 100,
     level: 1,
-    level_speed: 20, // 20 - 5
+    level_speed: 15, // 20 - 5
     word_difficulty: {
       min: 50000, // 10000
       max: 200000 // 274000
     },
     spawn: {
-      volume: 1, // 1 - .01
-      delay: 5, // 5 - 1
+      volume: .5, // 1 - .01
+      delay: 2, // 5 - 1
     },
     prepared_words: [],
     dropping_words: [],
     registered_word: "",
     success: 0,
     ignored: 0,
+    power_tiles: [],
+    active_power_tile: null
   }),
   actions: {
-    // since we rely on `this`, we cannot use an arrow function
+    heal(points) {
+      const futureHp = this.hp + points;
+      if(futureHp > 100) {
+        this.hp = 100;
+        return;
+      }
+
+      this.hp += points;
+    },
     setPreparedWords(words) {
       this.prepared_words = words
     },
@@ -44,6 +54,20 @@ export const useRuntimeStore = defineStore('RuntimeStore', {
     },
     setRegisteredWord(word) {
       this.registered_word = word;
+
+      // check for power tile
+      if(this.power_tiles.length > 0) {
+        const index = this.power_tiles.findIndex(x => x.name === word)
+
+        if(index >= 0) {
+          this.active_power_tile = this.power_tiles[index]
+          this.power_tiles.splice(index, 1)
+  
+          if(this.active_power_tile.name === 'heal') {
+            this.heal(50)
+          }
+        } 
+      }
     },
     processStringSubmission(word) {
       this.score += word.length;
@@ -61,6 +85,16 @@ export const useRuntimeStore = defineStore('RuntimeStore', {
           break;
         default: 
       }
+    },
+    cleanDroppingWords() {
+      this.dropping_words = [];
+    },
+    storePowerTile(tile) {
+      if(this.power_tiles.length >= 5) return
+      this.power_tiles.push(tile)
+    },
+    clearPowerTile() {
+      this.active_power_tile = null;
     }
   },
 })

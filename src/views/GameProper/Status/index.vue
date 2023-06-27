@@ -9,11 +9,7 @@
     <p class="ma-0">Score</p>
     <h4 class="mt-0">{{ score }}</h4>
 
-    <p class="ma-0">Word Count</p>
-    <h4 class="mt-0">{{ success }}</h4>
-
-    <p class="ma-0">Ignored</p>
-    <h4 class="mt-0">{{ ignored }}</h4>
+    <PowerHolder />
 
   </div>
 </template>
@@ -25,8 +21,13 @@ import { storeToRefs } from 'pinia'
 import { ref, onMounted } from 'vue'
 import _ from 'lodash'
 
+import PowerHolder from "./components/PowerHolder.vue"
+
 export default {
   name: 'Status',
+  components: {
+    PowerHolder
+  },
   setup() {
     const word_display = ref([])
     const runtime = useRuntimeStore()

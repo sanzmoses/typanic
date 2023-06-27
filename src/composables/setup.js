@@ -20,10 +20,12 @@ export function getSetup() {
     tile_color: 'amber-3',
     tile_text: 'black',
     chances: {
-      power_tile: 10,
+      power_tile: 20,
       faster_tile: 15,
       double_speed: 5,
     },
+    ice_duration: 5, //seconds
+    slow_duration: 10 //seconds
   })
 
   // 10,000 - 100,000 < - level 1
@@ -51,7 +53,7 @@ export function getSetup() {
     const is_power_tile = grabPercent(setup.value.chances.power_tile)
 
     if(is_power_tile) {
-      return power_tiles[_.random(1, 4)]
+      return power_tiles[_.random(0, 3)]
     }
 
     return null;

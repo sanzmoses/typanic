@@ -25,9 +25,14 @@ export default {
     }
   },
   setup (props) {
-    const { setup, isRelativelyFaster, isDoubleSpeed, grabPowerTile } = getSetup()
+    const { 
+      setup, 
+      isRelativelyFaster, 
+      isDoubleSpeed, 
+      grabPowerTile,
+    } = getSetup()
     const runtime = useRuntimeStore()
-    const { registered_word } = storeToRefs(runtime)
+    const { registered_word, active_power_tile } = storeToRefs(runtime)
 
     let drop_animation = null;
     const max_width = setup.value.width
@@ -57,6 +62,16 @@ export default {
       return html_string
     })
 
+    const setInitialSpeed = () => {
+      if(is_faster) {
+        drop_animation.timeScale(1.5)
+      } else if(fastest) {
+        drop_animation.timeScale(2)
+      } else {
+        drop_animation.timeScale(1)
+      }
+    }
+
     watchEffect(() => {
       if(props.input_string.length > 0) {
         if(props.word.includes(props.input_string)) {
@@ -68,11 +83,17 @@ export default {
     watch(registered_word, () => {
       // typed word correctly
       if(registered_word.value === props.word) {
+        if(power_tile) runtime.storePowerTile(power_tile)
+
         runtime.processStringSubmission(props.word);
         drop_animation.kill();
 
         runtime.removeWord(props.word)
         return
+      }
+
+      if(active_power_tile) {
+        return;
       }
 
       if(word_hits >= 5) {
@@ -84,6 +105,50 @@ export default {
       if(word_try > 1) {
         drop_animation.totalDuration(5)
       }
+    })
+
+    watch(active_power_tile, () => {
+      let power = null;
+      if(power = active_power_tile?.value?.name?? null) {
+      
+        switch(power) {
+          case 'fire':
+            drop_animation.kill()
+            runtime.cleanDroppingWords()
+
+            setTimeout(() => {
+              runtime.clearPowerTile()
+            }, 1000)
+
+            break;
+          case 'ice':
+            drop_animation.pause()
+
+            setTimeout(() => {
+              drop_animation.resume()
+              setInitialSpeed()
+              runtime.clearPowerTile()
+            }, setup.value.ice_duration * 1000)
+            break;
+          case 'slow':
+            drop_animation.timeScale(.5)
+
+            setTimeout(() => {
+              setInitialSpeed()
+              runtime.clearPowerTile()
+            }, setup.value.slow_duration * 1000)
+            break;
+          case 'heal':
+            setTimeout(() => {
+              runtime.clearPowerTile()
+            }, 1000)
+            break;
+          default:
+            break;
+        }
+      }
+
+      
     })
 
     onMounted(() => {
@@ -103,11 +168,7 @@ export default {
         }
       }); 
 
-      if(is_faster) {
-        drop_animation.timeScale(1.5)
-      } else if(fastest) {
-        drop_animation.timeScale(2)
-      }
+      setInitialSpeed()
     })
 
     return {

@@ -1,5 +1,13 @@
 <template>
-  <div class="">
+  <div class="power-holder">
+    <template v-for="(tile, index) in power_tiles" :key="tile.name + index">
+      <div>
+        <q-chip color="white" text-color="black">
+          <q-avatar icon="bookmark" :color="tile.color" text-color="white" />
+          {{ tile.name }}
+        </q-chip>
+      </div>
+    </template>
   </div>
 </template>
 
@@ -13,18 +21,22 @@ export default {
   name: 'Template',
   setup() {
     const runtime = useRuntimeStore()
-    const { level } = storeToRefs(runtime)
+    const { power_tiles } = storeToRefs(runtime)
 
     const data = ref(null)
 
-    onMounted(() => {
-      
-    })
+    onMounted(() => { })
 
     return {
-      level,
+      power_tiles,
       data
     }
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.power-holder {
+
+}
+</style>
