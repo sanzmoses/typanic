@@ -32,7 +32,14 @@ export default {
       grabPowerTile,
     } = getSetup()
     const runtime = useRuntimeStore()
-    const { registered_word, active_power_tile } = storeToRefs(runtime)
+    const { 
+      registered_word, 
+      active_power_tile, 
+      is_power_ice_active, 
+      is_power_slow_active,
+      is_power_fire_active,
+      is_power_heal_active
+    } = storeToRefs(runtime)
 
     let drop_animation = null;
     const max_width = setup.value.width
@@ -92,7 +99,7 @@ export default {
         return
       }
 
-      if(active_power_tile) {
+      if(active_power_tile.length > 0) {
         return;
       }
 
@@ -108,48 +115,38 @@ export default {
     })
 
     watch(active_power_tile, () => {
-      let power = null;
-      if(power = active_power_tile?.value?.name?? null) {
       
-        switch(power) {
-          case 'fire':
-            drop_animation.kill()
-            runtime.cleanDroppingWords()
+      if(is_power_ice_active.value) {
+        drop_animation.pause()
 
-            setTimeout(() => {
-              runtime.clearPowerTile()
-            }, 1000)
+        setTimeout(() => {
+          drop_animation.resume()
+          setInitialSpeed()
+          runtime.clearActivePowerTile('ice')
+        }, setup.value.ice_duration * 1000)
+      } 
+      else if (is_power_slow_active.value) {
+        drop_animation.timeScale(.5)
 
-            break;
-          case 'ice':
-            drop_animation.pause()
+        setTimeout(() => {
+          setInitialSpeed()
+          runtime.clearActivePowerTile('slow')
+        }, setup.value.slow_duration * 1000)
+      } 
+      else if (is_power_fire_active.value) {
+        drop_animation.kill()
+        runtime.cleanDroppingWords()
 
-            setTimeout(() => {
-              drop_animation.resume()
-              setInitialSpeed()
-              runtime.clearPowerTile()
-            }, setup.value.ice_duration * 1000)
-            break;
-          case 'slow':
-            drop_animation.timeScale(.5)
-
-            setTimeout(() => {
-              setInitialSpeed()
-              runtime.clearPowerTile()
-            }, setup.value.slow_duration * 1000)
-            break;
-          case 'heal':
-            setTimeout(() => {
-              runtime.clearPowerTile()
-            }, 1000)
-            break;
-          default:
-            break;
-        }
+        setTimeout(() => {
+          runtime.clearActivePowerTile('fire')
+        }, 500)
       }
-
-      
-    })
+      else if (is_power_heal_active.value) {
+        setTimeout(() => {
+          runtime.clearActivePowerTile('heal')
+        }, 1000)
+      }
+    }, { deep: true })
 
     onMounted(() => {
       gsap.set('#'+props.word, {

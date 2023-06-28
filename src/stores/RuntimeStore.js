@@ -22,8 +22,22 @@ export const useRuntimeStore = defineStore('RuntimeStore', {
     success: 0,
     ignored: 0,
     power_tiles: [],
-    active_power_tile: null
+    active_power_tile: []
   }),
+  getters: {
+    is_power_ice_active() {
+      return !!_.find(this.active_power_tile, { name: 'ice'});
+    },
+    is_power_slow_active() {
+      return !!_.find(this.active_power_tile, { name: 'slow'});
+    },
+    is_power_fire_active() {
+      return !!_.find(this.active_power_tile, { name: 'fire'});
+    },
+    is_power_heal_active() {
+      return !!_.find(this.active_power_tile, { name: 'heal'});
+    }
+  },
   actions: {
     heal(points) {
       const futureHp = this.hp + points;
@@ -60,10 +74,11 @@ export const useRuntimeStore = defineStore('RuntimeStore', {
         const index = this.power_tiles.findIndex(x => x.name === word)
 
         if(index >= 0) {
-          this.active_power_tile = this.power_tiles[index]
+          const power_tile = this.power_tiles[index]
+          this.active_power_tile.push(power_tile)
           this.power_tiles.splice(index, 1)
   
-          if(this.active_power_tile.name === 'heal') {
+          if(power_tile.name === 'heal') {
             this.heal(50)
           }
         } 
@@ -93,8 +108,9 @@ export const useRuntimeStore = defineStore('RuntimeStore', {
       if(this.power_tiles.length >= 5) return
       this.power_tiles.push(tile)
     },
-    clearPowerTile() {
-      this.active_power_tile = null;
-    }
+    clearActivePowerTile(power_name) {
+      const index = this.active_power_tile.findIndex(x => x.name === power_name)
+      this.active_power_tile.splice(index, 1)
+    },
   },
 })
