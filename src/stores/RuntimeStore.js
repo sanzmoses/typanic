@@ -3,6 +3,8 @@ import _ from 'lodash'
 
 export const useRuntimeStore = defineStore('RuntimeStore', {
   state: () => ({
+    ice_duration: 5, //seconds
+    slow_duration: 10, //seconds
     count: 100,
     score: 0,
     hp: 100,
@@ -73,7 +75,7 @@ export const useRuntimeStore = defineStore('RuntimeStore', {
       this.registered_word = word;
 
       // check for power tile
-      this.checkAndUsePowerTile(word)
+      this.checkPowerTile(word)
     },
     processStringSubmission(word) {
       this.score += word.length;
@@ -95,19 +97,45 @@ export const useRuntimeStore = defineStore('RuntimeStore', {
     cleanDroppingWords() {
       this.dropping_words = [];
     },
-    checkAndUsePowerTile(word) {
+    checkPowerTile(word) {
       if(this.power_tiles.length > 0) {
         const index = this.power_tiles.findIndex(x => x.name === word)
 
-        if(index >= 0) {
-          const power_tile = this.power_tiles[index]
-          this.active_power_tile.push(power_tile)
-          this.power_tiles.splice(index, 1)
-  
-          if(power_tile.name === 'heal') {
-            this.heal(50)
-          }
-        } 
+        /** use power tile */
+        if(index >= 0) this.usePowerTile(index)
+      }
+    },
+    usePowerTile(index) {
+      const power_tile = this.power_tiles[index]
+      this.active_power_tile.push(power_tile)
+      this.power_tiles.splice(index, 1)
+
+      const endBurn = _.debounce(() => {
+        this.clearActivePowerTile('fire')
+      }, 100)
+
+      const endSlow = _.debounce(() => {
+        this.clearActivePowerTile('slow')
+      }, this.slow_duration * 1000)
+
+      const endFreeze = _.debounce(() => {
+        this.clearActivePowerTile('ice')
+      }, this.ice_duration * 1000)
+      
+      switch(power_tile.name) {
+        case 'heal': 
+          this.heal(50)
+          this.clearActivePowerTile('heal')
+          break;
+        case 'fire': 
+          this.cleanDroppingWords()
+          endBurn()
+          break;
+        case 'ice': endFreeze()
+          break;
+        case 'slow': endSlow()
+          break;
+        default: break;
       }
     },
     storePowerTile(tile) {

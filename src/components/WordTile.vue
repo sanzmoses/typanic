@@ -12,6 +12,7 @@ import { ref, onMounted, computed, watchEffect, watch } from 'vue'
 import { getSetup } from '@/composables/setup.js'
 import { useRuntimeStore } from '@/stores/RuntimeStore'
 import { storeToRefs } from 'pinia'
+import { is } from 'quasar'
 
 export default {
   name: "WordTile",
@@ -109,40 +110,30 @@ export default {
       }
     }
 
-    const freezeTile = () => {
-      drop_animation.pause()
-
-      const endFreeze = _.debounce(() => {
+    watch(is_power_ice_active, () => { 
+      if(is_power_ice_active.value) {
+        drop_animation.pause()
+      } else {
         drop_animation.resume()
         setInitialSpeed()
-        runtime.clearActivePowerTile('ice')
-      }, setup.value.ice_duration * 1000)
-      
-      endFreeze()
-    }
+      }
+    })
 
-    const slowTile = () => {
-      drop_animation.timeScale(.5)
-
-      const endSlow = _.debounce(() => {
+    watch(is_power_slow_active, () => { 
+      if(is_power_slow_active.value) {
+        drop_animation.timeScale(.5)
+      } else {
         setInitialSpeed()
-        runtime.clearActivePowerTile('slow')
-      }, setup.value.slow_duration * 1000)
-      
-      endSlow()
-    }
+      }
+    })
 
-    const burnTile = () => {
-      drop_animation.pause()
-      drop_animation.kill()
-      runtime.cleanDroppingWords()
-
-      const endBurn = _.debounce(() => {
-        runtime.clearActivePowerTile('fire')
-      }, 500)
-
-      endBurn();
-    }
+    watch(is_power_fire_active, () => { 
+      if(is_power_fire_active.value) {
+        console.log("pausing and killing")
+        drop_animation.pause()
+        drop_animation.kill()
+      }
+    })
 
     watchEffect(() => {
       if(props.input_string.length > 0) {
@@ -179,20 +170,6 @@ export default {
       }
     })
 
-    watch(active_power_tile, () => {
-      
-      if (is_power_fire_active.value) burnTile()
-      if (is_power_ice_active.value) freezeTile()
-      if (is_power_slow_active.value) slowTile();
-      if (is_power_heal_active.value) {
-        /** heal in runtime */
-        setTimeout(() => {
-          runtime.clearActivePowerTile('heal')
-        }, 1000)
-      }
-
-    }, { deep: true })
-
     onMounted(() => {
       gsap.set('#'+props.word, {
         x: x.value,
@@ -205,6 +182,7 @@ export default {
         duration: runtime.level_speed,
         onComplete: () => {
           // missed words
+          console.log("missed words", props.word)
           runtime.processHP('drop', props.word)
           runtime.removeWord(props.word)
         }

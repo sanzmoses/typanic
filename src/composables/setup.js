@@ -51,7 +51,7 @@ export function getSetup() {
     const is_power_tile = grabPercent(setup.value.chances.power_tile)
 
     if(is_power_tile) {
-      return power_tiles[_.random(0, 1)]
+      return power_tiles[_.random(0, 3)]
     }
 
     return null;
