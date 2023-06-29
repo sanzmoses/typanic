@@ -70,6 +70,36 @@ export default {
     })
 
     const setInitialSpeed = () => {
+      if(is_power_ice_active.value) {
+        drop_animation.pause()
+
+        let checkIfIceActive = _.debounce(() => {
+          if(!is_power_ice_active.value) {
+            setInitialSpeed();
+            return;
+          }
+          checkIfIceActive();
+        }, 100)
+
+        checkIfIceActive();
+        return
+      }
+
+      if(is_power_slow_active.value) {
+        drop_animation.timeScale(.5)
+
+        let checkIfSlowActive = _.debounce(() => {
+          if(!is_power_slow_active.value) {
+            setInitialSpeed();
+            return;
+          }
+          checkIfSlowActive();
+        }, 100)
+
+        checkIfSlowActive();
+        return
+      }
+
       if(is_faster) {
         drop_animation.timeScale(1.5)
       } else if(fastest) {
@@ -77,6 +107,41 @@ export default {
       } else {
         drop_animation.timeScale(1)
       }
+    }
+
+    const freezeTile = () => {
+      drop_animation.pause()
+
+      const endFreeze = _.debounce(() => {
+        drop_animation.resume()
+        setInitialSpeed()
+        runtime.clearActivePowerTile('ice')
+      }, setup.value.ice_duration * 1000)
+      
+      endFreeze()
+    }
+
+    const slowTile = () => {
+      drop_animation.timeScale(.5)
+
+      const endSlow = _.debounce(() => {
+        setInitialSpeed()
+        runtime.clearActivePowerTile('slow')
+      }, setup.value.slow_duration * 1000)
+      
+      endSlow()
+    }
+
+    const burnTile = () => {
+      drop_animation.pause()
+      drop_animation.kill()
+      runtime.cleanDroppingWords()
+
+      const endBurn = _.debounce(() => {
+        runtime.clearActivePowerTile('fire')
+      }, 500)
+
+      endBurn();
     }
 
     watchEffect(() => {
@@ -99,7 +164,7 @@ export default {
         return
       }
 
-      if(active_power_tile.length > 0) {
+      if(active_power_tile.value.length > 0) {
         return;
       }
 
@@ -116,36 +181,16 @@ export default {
 
     watch(active_power_tile, () => {
       
-      if(is_power_ice_active.value) {
-        drop_animation.pause()
-
-        setTimeout(() => {
-          drop_animation.resume()
-          setInitialSpeed()
-          runtime.clearActivePowerTile('ice')
-        }, setup.value.ice_duration * 1000)
-      } 
-      else if (is_power_slow_active.value) {
-        drop_animation.timeScale(.5)
-
-        setTimeout(() => {
-          setInitialSpeed()
-          runtime.clearActivePowerTile('slow')
-        }, setup.value.slow_duration * 1000)
-      } 
-      else if (is_power_fire_active.value) {
-        drop_animation.kill()
-        runtime.cleanDroppingWords()
-
-        setTimeout(() => {
-          runtime.clearActivePowerTile('fire')
-        }, 500)
-      }
-      else if (is_power_heal_active.value) {
+      if (is_power_fire_active.value) burnTile()
+      if (is_power_ice_active.value) freezeTile()
+      if (is_power_slow_active.value) slowTile();
+      if (is_power_heal_active.value) {
+        /** heal in runtime */
         setTimeout(() => {
           runtime.clearActivePowerTile('heal')
         }, 1000)
       }
+
     }, { deep: true })
 
     onMounted(() => {

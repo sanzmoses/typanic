@@ -7,10 +7,10 @@ export function getSetup() {
   const runtime = useRuntimeStore()
 
   const power_tiles = [
-    { name: 'fire', color: 'red-10', icon: 'whatshot' },
-    { name: 'heal', color: 'green-14', icon: 'health_and_safety' },
     { name: 'slow', color: 'purple-8', icon: 'ac_unit' },
     { name: 'ice', color: 'blue-9', icon: 'hourglass_empty' },
+    { name: 'fire', color: 'red-10', icon: 'whatshot' },
+    { name: 'heal', color: 'green-14', icon: 'health_and_safety' },
   ]
 
   const setup = ref({
@@ -20,12 +20,10 @@ export function getSetup() {
     tile_color: 'amber-3',
     tile_text: 'black',
     chances: {
-      power_tile: 20,
+      power_tile: 50,
       faster_tile: 15,
       double_speed: 5,
     },
-    ice_duration: 5, //seconds
-    slow_duration: 10 //seconds
   })
 
   // 10,000 - 100,000 < - level 1
@@ -53,7 +51,7 @@ export function getSetup() {
     const is_power_tile = grabPercent(setup.value.chances.power_tile)
 
     if(is_power_tile) {
-      return power_tiles[_.random(0, 3)]
+      return power_tiles[_.random(0, 1)]
     }
 
     return null;

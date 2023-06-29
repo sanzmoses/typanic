@@ -57,7 +57,10 @@ export default {
     const word_display = ref([])
 
     const runtime = useRuntimeStore()
-    const { dropping_words } = storeToRefs(runtime)
+    const { 
+      dropping_words, 
+      is_power_ice_active,
+    } = storeToRefs(runtime)
 
     const input_string = ref('')
 
@@ -72,7 +75,15 @@ export default {
     const addWords = () => {
       if(runtime.prepared_words.length === 0) return;
       
-      let delay = _.random(runtime.spawn.volume * 1000, runtime.spawn.delay * 1000);
+      if(is_power_ice_active.value) {
+        interruptDrop();
+        return;
+      }
+      
+      let delay = _.random(
+        runtime.spawn.volume * 1000, 
+        runtime.spawn.delay * 1000
+      );
 
       runtime.dropWord();
 
@@ -81,6 +92,19 @@ export default {
       }, delay)
 
       debounce();
+    }
+
+    const interruptDrop = () => {
+      let checkIfIceActive = _.debounce(() => {
+        if(!is_power_ice_active.value) {
+          addWords();
+          return;
+        }
+
+        checkIfIceActive();
+      }, 100)
+
+      checkIfIceActive()
     }
 
     const submitString = () => {

@@ -36,6 +36,9 @@ export const useRuntimeStore = defineStore('RuntimeStore', {
     },
     is_power_heal_active() {
       return !!_.find(this.active_power_tile, { name: 'heal'});
+    },
+    is_power_active() {
+      return this.active_power_tile.length > 0
     }
   },
   actions: {
@@ -70,19 +73,7 @@ export const useRuntimeStore = defineStore('RuntimeStore', {
       this.registered_word = word;
 
       // check for power tile
-      if(this.power_tiles.length > 0) {
-        const index = this.power_tiles.findIndex(x => x.name === word)
-
-        if(index >= 0) {
-          const power_tile = this.power_tiles[index]
-          this.active_power_tile.push(power_tile)
-          this.power_tiles.splice(index, 1)
-  
-          if(power_tile.name === 'heal') {
-            this.heal(50)
-          }
-        } 
-      }
+      this.checkAndUsePowerTile(word)
     },
     processStringSubmission(word) {
       this.score += word.length;
@@ -104,12 +95,28 @@ export const useRuntimeStore = defineStore('RuntimeStore', {
     cleanDroppingWords() {
       this.dropping_words = [];
     },
+    checkAndUsePowerTile(word) {
+      if(this.power_tiles.length > 0) {
+        const index = this.power_tiles.findIndex(x => x.name === word)
+
+        if(index >= 0) {
+          const power_tile = this.power_tiles[index]
+          this.active_power_tile.push(power_tile)
+          this.power_tiles.splice(index, 1)
+  
+          if(power_tile.name === 'heal') {
+            this.heal(50)
+          }
+        } 
+      }
+    },
     storePowerTile(tile) {
       if(this.power_tiles.length >= 5) return
       this.power_tiles.push(tile)
     },
     clearActivePowerTile(power_name) {
       const index = this.active_power_tile.findIndex(x => x.name === power_name)
+      console.log("cleartile", power_name, index)
       this.active_power_tile.splice(index, 1)
     },
   },
