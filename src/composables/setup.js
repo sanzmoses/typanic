@@ -7,8 +7,8 @@ export function getSetup() {
   const runtime = useRuntimeStore()
 
   const power_tiles = [
-    { name: 'slow', color: 'purple-8', icon: 'ac_unit' },
-    { name: 'ice', color: 'blue-9', icon: 'hourglass_empty' },
+    { name: 'slow', color: 'purple-8', icon: 'hourglass_empty' },
+    { name: 'ice', color: 'blue-9', icon: 'ac_unit' },
     { name: 'fire', color: 'red-10', icon: 'whatshot' },
     { name: 'heal', color: 'green-14', icon: 'health_and_safety' },
   ]

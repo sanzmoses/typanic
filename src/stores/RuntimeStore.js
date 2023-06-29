@@ -111,8 +111,9 @@ export const useRuntimeStore = defineStore('RuntimeStore', {
       this.power_tiles.splice(index, 1)
 
       const endBurn = _.debounce(() => {
+        this.cleanDroppingWords()
         this.clearActivePowerTile('fire')
-      }, 100)
+      }, 1)
 
       const endSlow = _.debounce(() => {
         this.clearActivePowerTile('slow')
@@ -128,7 +129,6 @@ export const useRuntimeStore = defineStore('RuntimeStore', {
           this.clearActivePowerTile('heal')
           break;
         case 'fire': 
-          this.cleanDroppingWords()
           endBurn()
           break;
         case 'ice': endFreeze()

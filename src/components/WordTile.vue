@@ -1,7 +1,18 @@
 <template>
-  <q-chip class="tile border-none" square :id="word" :color="setup.tile_color" :text-color="setup.tile_text">
-    <q-avatar class="border-none" v-if="power_tile" :icon="power_tile.icon" :color="power_tile.color" text-color="white" />
-    <p class="word ma-0" v-html="parse_word"></p>
+  <q-chip 
+    class="tile border-none" 
+    square 
+    :id="word" 
+    :color="power_tile?.color?? setup.tile_color" 
+    :text-color="power_tile? 'white': setup.tile_text">
+      <q-avatar 
+        class="border-none" 
+        v-if="power_tile" 
+        :icon="power_tile.icon" 
+        :color="power_tile.color" 
+        text-color="white" 
+      />
+      <p class="word ma-0" v-html="parse_word"></p>
   </q-chip>
 </template>
 
@@ -12,7 +23,6 @@ import { ref, onMounted, computed, watchEffect, watch } from 'vue'
 import { getSetup } from '@/composables/setup.js'
 import { useRuntimeStore } from '@/stores/RuntimeStore'
 import { storeToRefs } from 'pinia'
-import { is } from 'quasar'
 
 export default {
   name: "WordTile",
@@ -129,7 +139,6 @@ export default {
 
     watch(is_power_fire_active, () => { 
       if(is_power_fire_active.value) {
-        console.log("pausing and killing")
         drop_animation.pause()
         drop_animation.kill()
       }
