@@ -24,6 +24,27 @@
           v-model="input_string" 
           @keyup.enter="submitString"
         />
+
+        <transition
+          appear
+          enter-active-class="animated zoomIn"
+          leave-active-class="animated zoomOut"
+        >
+          <template v-if="!start">
+            <NewGameOverlay @start="startGame" />
+          </template>
+        </transition>
+
+        <transition
+          appear
+          enter-active-class="animated zoomIn"
+          leave-active-class="animated zoomOut"
+        >
+          <div v-show="counting" class="overlay">
+            <p>{{ counter }}</p>
+          </div> 
+        </transition>
+        
       </div>
     </div>
     <div class="ml-10">
@@ -36,6 +57,7 @@
 <script>
 import WordTile from "@/components/WordTile.vue"
 import Status from "./Status/index.vue"
+import NewGameOverlay from "./Components/NewGameOverlay.vue"
 
 import { getSetup } from '@/composables/setup.js'
 
@@ -49,7 +71,8 @@ export default {
   name: 'GameProper',
   components: {
     WordTile,
-    Status
+    Status,
+    NewGameOverlay
   },
   setup() {
 
@@ -63,14 +86,35 @@ export default {
     } = storeToRefs(runtime)
 
     const input_string = ref('')
+    const start = ref(false)
+    const counter = ref(5)
+    const counting = ref(false)
 
     runtime.setPreparedWords(grabHundredWords())
 
     onMounted(() => {
-      setTimeout(() => {
-        addWords();
-      }, 1000)
+      // setTimeout(() => {
+      //   addWords();
+      // }, 1000)
     })
+
+    const startGame = () => {
+      start.value = true;
+      counting.value = true;
+
+      const countDown = _.debounce(() => {
+        counter.value--;
+
+        if(counter.value === 0) {
+          counting.value = false;
+          addWords();
+        } else {
+          countDown();
+        }
+      }, 1000) 
+
+      countDown()
+    }
 
     const addWords = () => {
       if(runtime.prepared_words.length === 0) return;
@@ -119,6 +163,10 @@ export default {
       gamebox: setup,
       input_string,
       submitString,
+      startGame,
+      start,
+      counter,
+      counting,
     }
   }
 }

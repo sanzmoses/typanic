@@ -2,8 +2,8 @@
   <div class="power-holder">
     <template v-for="(tile, index) in power_tiles" :key="tile.name + index">
       <div>
-        <q-chip color="white" text-color="black">
-          <q-avatar icon="bookmark" :color="tile.color" text-color="white" />
+        <q-chip :color="tile.color" text-color="white">
+          <q-avatar :icon="tile.icon" color="white" :text-color="tile.color" />
           {{ tile.name }}
         </q-chip>
       </div>
@@ -37,6 +37,7 @@ export default {
 
 <style lang="scss" scoped>
 .power-holder {
-
+  min-width: 100px;
+  min-height: 200px;
 }
 </style>

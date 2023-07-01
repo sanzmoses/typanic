@@ -1,12 +1,10 @@
 <template>
   <q-chip 
-    class="tile border-none" 
-    square 
+    class="tile" 
     :id="word" 
     :color="power_tile?.color?? setup.tile_color" 
     :text-color="power_tile? 'white': setup.tile_text">
       <q-avatar 
-        class="border-none" 
         v-if="power_tile" 
         :icon="power_tile.icon" 
         :color="power_tile.color" 

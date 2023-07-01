@@ -21,7 +21,7 @@ import { storeToRefs } from 'pinia'
 import { ref, onMounted } from 'vue'
 import _ from 'lodash'
 
-import PowerHolder from "./components/PowerHolder.vue"
+import PowerHolder from "./Components/PowerHolder.vue"
 
 export default {
   name: 'Status',

@@ -5,7 +5,7 @@ export const useRuntimeStore = defineStore('RuntimeStore', {
   state: () => ({
     ice_duration: 5, //seconds
     slow_duration: 10, //seconds
-    count: 100,
+    count: 200,
     score: 0,
     hp: 100,
     level: 1,
@@ -82,6 +82,7 @@ export const useRuntimeStore = defineStore('RuntimeStore', {
       this.success++;
     },
     processHP(cue, word) {
+      // TODO: points deduction
       let hp_deduction = word.length - 10;
       switch(cue) {
         case 'heal': 
