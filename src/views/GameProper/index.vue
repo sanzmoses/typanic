@@ -41,7 +41,7 @@
           leave-active-class="animated zoomOut"
         >
           <div v-show="counting" class="overlay">
-            <p>{{ counter }}</p>
+            <p class="counter">{{ counter }}</p>
           </div> 
         </transition>
         
@@ -173,6 +173,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.counter {
+  color: black;
+  font-size: 40px;
+  font-weight: bold;
+}
 .game-proper {
   min-width: 768px;
   width: 100%;
@@ -183,7 +188,7 @@ export default {
 .game-box {
   position: relative;
   display: inline-block;
-  background-color: #000000;
+  background-color: #ffffff;
   overflow: hidden;
 }
 

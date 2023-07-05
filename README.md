@@ -12,3 +12,20 @@ npm run dev or dev
 
 vue ui --dev
 
+To do:
+Point System
+- per level pit stop center overlay
+- score/deduction according to word difficulty
+- score cap or tile count for every level
+- additional points for level without letting any tile to drop zone - perfect execution
+- a constant raise of difficulty for levels for unlimited levels
+- per level and whole game summary stats of points/scores
+- track words per minute including usage of powers
+Gameover
+- game over stats
+- game over center overlay 
+Hall of fame
+- just get name input
+- top scorers, overall points and level reached, average word per minute
+
+Updates:

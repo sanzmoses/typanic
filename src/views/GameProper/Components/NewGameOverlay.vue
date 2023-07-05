@@ -9,7 +9,7 @@
         <div class="text-h5 mt-2 mb-3">Welcome to Typanic!</div>
         
         <div class="text-caption text-grey">
-          This is my attempt to recreate one of my favorite games: "Typing Maniac" by Mindjolt which I could not find in the web anymore. 
+          This is my attempt to recreate one of my favorite game: "Typing Maniac" by Mindjolt which sadly I could not find in the web anymore. 
         </div>
         <div class="text-overline text-orange-9">- Sanz</div>
       </q-card-section>

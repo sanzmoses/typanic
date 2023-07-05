@@ -1,16 +1,22 @@
 <template>
   <q-chip 
-    class="tile" 
+    square
+    class="tile border-none" 
     :id="word" 
-    :color="power_tile?.color?? setup.tile_color" 
-    :text-color="power_tile? 'white': setup.tile_text">
-      <q-avatar 
-        v-if="power_tile" 
-        :icon="power_tile.icon" 
-        :color="power_tile.color" 
-        text-color="white" 
-      />
-      <p class="word ma-0" v-html="parse_word"></p>
+    :color="setup.tile_color" 
+    :text-color="power_tile?.color?? setup.tile_text"
+    :style="{
+      border: '2px solid',
+      borderColor: power_tile?.color?? setup.tile_text
+    }"
+  >
+    <!-- <q-avatar 
+      v-if="power_tile" 
+      :icon="power_tile.icon" 
+      :color="power_tile.color" 
+      text-color="white" 
+    /> -->
+    <p class="word ma-0" v-html="parse_word"></p>
   </q-chip>
 </template>
 
@@ -211,9 +217,6 @@ export default {
 <style lang="scss" scoped>
 .tile {
   position: absolute;
-}
-
-.border-none {
   border-radius: 0px !important;
 }
 

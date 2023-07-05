@@ -9,14 +9,14 @@ export const useRuntimeStore = defineStore('RuntimeStore', {
     score: 0,
     hp: 100,
     level: 1,
-    level_speed: 15, // 20 - 5
+    level_speed: 20, // 20 - 5
     word_difficulty: {
-      min: 50000, // 10000
-      max: 200000 // 274000
+      min: 10000, // 10000
+      max: 50000 // 274000
     },
     spawn: {
-      volume: .5, // 1 - .01
-      delay: 2, // 5 - 1
+      volume: 1, // 1 - .01
+      delay: 5, // 5 - 1
     },
     prepared_words: [],
     dropping_words: [],

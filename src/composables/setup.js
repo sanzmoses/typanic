@@ -16,13 +16,13 @@ export function getSetup() {
   const setup = ref({
     height: 600,
     width: 500,
-    highlight: '#ffffff',
-    tile_color: 'amber-3',
+    highlight: '#FF6F00',
+    tile_color: 'transparent',
     tile_text: 'black',
     chances: {
       power_tile: 50,
-      faster_tile: 15,
-      double_speed: 5,
+      faster_tile: 20,
+      double_speed: 10,
     },
   })
 
