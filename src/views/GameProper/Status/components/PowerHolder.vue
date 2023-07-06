@@ -1,10 +1,12 @@
 <template>
   <div class="power-holder">
-    <template v-for="(tile, index) in power_tiles" :key="tile.name + index">
-      <div :class="['power-tile', tile.name]">
-        <p class="ma-0">{{ tile.name }}</p>
-      </div>
-    </template>
+    <TransitionGroup name="list">
+      <template v-for="(tile, index) in power_tiles" :key="tile.name + index">
+        <div :class="['power-tile', tile.name]">
+          <p class="ma-0">{{ tile.name }}</p>
+        </div>
+      </template>
+    </TransitionGroup>
   </div>
 </template>
 
@@ -77,5 +79,23 @@ export default {
     background-color: #00D06C;
     border: 1px solid #00FF85;
   }
+}
+
+.list-move, /* apply transition to moving elements */
+.list-enter-active,
+.list-leave-active {
+  transition: all 0.5s ease;
+}
+
+.list-enter-from,
+.list-leave-to {
+  opacity: 0;
+  transform: translateX(-30px);
+}
+
+/* ensure leaving items are taken out of layout flow so that moving
+   animations can be calculated correctly. */
+.list-leave-active {
+  position: absolute;
 }
 </style>
