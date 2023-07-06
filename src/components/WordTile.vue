@@ -258,6 +258,9 @@ export default {
     .word {
       color: #FF0000;
     }
+    .highlighted {
+      color: #930000 !important; 
+    }
   }
   
   &.slow-tile {

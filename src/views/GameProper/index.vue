@@ -1,9 +1,15 @@
 <template>
   <div class="game-proper">
     <div>
-      <h4 class="ma-0">Typanic</h4>
-      <p>By <a class="portfolio-link" href="http://sanz.ml" target="_blank">Sanz</a></p>
-
+      <div class="flex justify-between items-end pb-1"> 
+        <div>
+          <h4 class="ma-0">Typanic</h4>
+          <p class="ma-0">By <a class="portfolio-link" href="http://sanz.ml" target="_blank">Sanz</a></p>
+        </div>
+        <div>
+          <OverallScore />
+        </div>
+      </div>
       <div 
         class="game-box" 
         :style="{
@@ -47,7 +53,7 @@
         
       </div>
     </div>
-    <div class="ml-10">
+    <div class="ml-7">
       <Status />
     </div>
   </div>
@@ -58,6 +64,7 @@
 import WordTile from "@/components/WordTile.vue"
 import Status from "./Status/index.vue"
 import NewGameOverlay from "./Components/NewGameOverlay.vue"
+import OverallScore from "./Components/OverallScore.vue"
 
 import { getSetup } from '@/composables/setup.js'
 
@@ -72,7 +79,8 @@ export default {
   components: {
     WordTile,
     Status,
-    NewGameOverlay
+    NewGameOverlay,
+    OverallScore,
   },
   setup() {
 

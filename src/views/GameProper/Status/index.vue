@@ -1,15 +1,12 @@
 <template>
   <div class="stats pt-11">
-    <p class="ma-0">Level</p>
-    <h4 class="mt-0">{{ level }}</h4>
+    <h1 class="level-num">{{ level }}</h1>
+    <p class="level-word">Level</p>
+    
+    <PowerHolder />
 
     <p class="ma-0">HP</p>
     <h4 class="mt-0">{{ hp }}</h4>
-
-    <p class="ma-0">Score</p>
-    <h4 class="mt-0">{{ score }}</h4>
-
-    <PowerHolder />
 
   </div>
 </template>
@@ -31,11 +28,10 @@ export default {
   setup() {
     const word_display = ref([])
     const runtime = useRuntimeStore()
-    const { level, hp, score, success, ignored, prepared_words } = storeToRefs(runtime)
+    const { level, hp, success, ignored, prepared_words } = storeToRefs(runtime)
 
     return {
       hp,
-      score,
       success,
       ignored,
       prepared_words,
@@ -44,3 +40,12 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.level-num {
+  margin: 0px 0px 0px -7px;
+}
+.level-word {
+  margin-top: -20px;
+}
+</style>

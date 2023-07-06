@@ -22,7 +22,7 @@ export default defineConfig({
             defer: true,
           },
           {
-            name: 'JetBrains Mono',
+            name: 'Overpass Mono',
             styles: 'wght@100;400;800',
             defer: true,
           },

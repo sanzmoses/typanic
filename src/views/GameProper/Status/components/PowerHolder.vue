@@ -1,11 +1,8 @@
 <template>
   <div class="power-holder">
     <template v-for="(tile, index) in power_tiles" :key="tile.name + index">
-      <div>
-        <q-chip :color="tile.color" text-color="white">
-          <q-avatar :icon="tile.icon" color="white" :text-color="tile.color" />
-          {{ tile.name }}
-        </q-chip>
+      <div :class="['power-tile', tile.name]">
+        <p class="ma-0">{{ tile.name }}</p>
       </div>
     </template>
   </div>
@@ -37,7 +34,48 @@ export default {
 
 <style lang="scss" scoped>
 .power-holder {
-  min-width: 100px;
-  min-height: 200px;
+  width: 100px;
+  height: 190px;
+  border-left: 2px solid white;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow: hidden;
+}
+
+.power-tile {
+  width: 60px;
+  height: 30px;
+  padding: 7px;
+  margin: 10px 0px 0px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+
+  p {
+    font-size: 14px;
+    height: 17px; 
+  }
+
+  &.ice {
+    background-color: #379FFF;
+    border: 1px solid #00D1FF;
+  }
+
+  &.fire {
+    background-color: #F00;
+    border: 1px solid #FF8A00;
+  }
+
+  &.slow {
+    background-color: #C0F;
+    border: 1px solid #E789FF;
+  }
+
+  &.heal {
+    background-color: #00D06C;
+    border: 1px solid #00FF85;
+  }
 }
 </style>
