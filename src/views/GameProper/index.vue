@@ -199,6 +199,8 @@ export default {
   display: flex;
   justify-content: center;
   font-size: 25px;
+  color: black;
+  font-weight: bold;
 }
 
 .game-input {
