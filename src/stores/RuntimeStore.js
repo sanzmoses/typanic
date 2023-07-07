@@ -10,6 +10,7 @@ export const useRuntimeStore = defineStore('RuntimeStore', {
     hp: 100,
     level: 1,
     level_speed: 20, // 25 - 5
+    level_score: 0,
     word_difficulty: {
       min: 10000, // 10000
       max: 50000 // 274000
@@ -79,21 +80,12 @@ export const useRuntimeStore = defineStore('RuntimeStore', {
     },
     processStringSubmission(word) {
       this.score += word.length;
+      this.level_score += word.length;
       this.success++;
     },
-    processHP(cue, word) {
-      // TODO: points deduction
-      let hp_deduction = word.length - 10;
-      switch(cue) {
-        case 'heal': 
-          this.hp = 100;
-          break;
-        case 'drop':
-          this.ignored++;
-          this.hp += hp_deduction
-          break;
-        default: 
-      }
+    missedWord(word) {
+      let hp_deduction = word.length + 10;
+      this.hp -= hp_deduction
     },
     cleanDroppingWords() {
       this.dropping_words = [];

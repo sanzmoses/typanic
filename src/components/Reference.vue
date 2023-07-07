@@ -11,7 +11,7 @@
 
 <script>
 import { onMounted } from 'vue'
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import { process } from '@/composables/jsonHighlighter.js'
 import { useComponentsPageStore } from '/src/stores/ComponentsPageStore'
 import { useSkillsStore } from '@/stores/SkillsStore'
@@ -45,6 +45,10 @@ export default {
     const getImageUrl = (name) => {
         return new URL(`../assets/screenshot/a_${name}`, import.meta.url).href
     }
+
+    watch(drawer, () => { 
+      
+    })
 
     onMounted(() => {
       

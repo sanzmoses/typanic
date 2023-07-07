@@ -5,9 +5,7 @@
     
     <PowerHolder />
 
-    <p class="ma-0">HP</p>
-    <h4 class="mt-0">{{ hp }}</h4>
-
+    <GameValues />
   </div>
 </template>
 
@@ -19,11 +17,13 @@ import { ref, onMounted } from 'vue'
 import _ from 'lodash'
 
 import PowerHolder from "./Components/PowerHolder.vue"
+import GameValues from "./Components/GameValues.vue"
 
 export default {
   name: 'Status',
   components: {
-    PowerHolder
+    PowerHolder,
+    GameValues,
   },
   setup() {
     const word_display = ref([])

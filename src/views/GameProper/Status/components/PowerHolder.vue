@@ -17,7 +17,7 @@ import { ref, onMounted } from 'vue'
 import _ from 'lodash'
 
 export default {
-  name: 'Template',
+  name: 'PowerHolder',
   setup() {
     const runtime = useRuntimeStore()
     const { power_tiles } = storeToRefs(runtime)

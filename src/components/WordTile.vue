@@ -202,9 +202,7 @@ export default {
         ease: 'none',
         duration: runtime.level_speed,
         onComplete: () => {
-          // missed words
-          console.log("missed words", props.word)
-          runtime.processHP('drop', props.word)
+          runtime.missedWord(props.word)
           runtime.removeWord(props.word)
         }
       }); 
