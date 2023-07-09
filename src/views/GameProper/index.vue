@@ -17,6 +17,8 @@
           height: gamebox.height + 'px'
         }"
       >
+        <BackgroundEffect />
+
         <template v-for="word in dropping_words" :key="word">
           <WordTile :word="word" :input_string="input_string" />
         </template>
@@ -67,6 +69,7 @@ import WordTile from "@/components/WordTile.vue"
 import Status from "./Status/index.vue"
 import NewGameOverlay from "./Components/NewGameOverlay.vue"
 import OverallScore from "./Components/OverallScore.vue"
+import BackgroundEffect from "./Components/BackgroundEffect.vue"
 
 import { getSetup } from '@/composables/setup.js'
 
@@ -83,6 +86,7 @@ export default {
     Status,
     NewGameOverlay,
     OverallScore,
+    BackgroundEffect,
   },
   setup() {
 
@@ -93,6 +97,7 @@ export default {
     const { 
       dropping_words, 
       is_power_ice_active,
+      is_level_complete,
     } = storeToRefs(runtime)
 
     const input_string = ref('')
@@ -110,6 +115,10 @@ export default {
 
     const startGame = () => {
       start.value = true;
+      startGameCountDown();
+    }
+
+    const startGameCountDown = () => {
       counting.value = true;
 
       const countDown = _.debounce(() => {
@@ -127,6 +136,10 @@ export default {
     }
 
     const addWords = () => {
+      if(is_level_complete.value) {
+        return;
+      }
+
       if(runtime.prepared_words.length === 0) return;
       
       if(is_power_ice_active.value) {
@@ -238,4 +251,6 @@ export default {
   font-style: none;
   text-decoration: none;
 }
+
+
 </style>

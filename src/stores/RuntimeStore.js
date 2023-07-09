@@ -10,7 +10,7 @@ export const useRuntimeStore = defineStore('RuntimeStore', {
     hp: 100,
     level: 1,
     level_speed: 20, // 25 - 5
-    level_score: 0,
+    level_score: 0, //to 100
     word_difficulty: {
       min: 10000, // 10000
       max: 50000 // 274000
@@ -25,7 +25,7 @@ export const useRuntimeStore = defineStore('RuntimeStore', {
     success: 0,
     ignored: 0,
     power_tiles: [],
-    active_power_tile: []
+    active_power_tile: [],
   }),
   getters: {
     is_power_ice_active() {
@@ -42,6 +42,9 @@ export const useRuntimeStore = defineStore('RuntimeStore', {
     },
     is_power_active() {
       return this.active_power_tile.length > 0
+    },
+    is_level_complete() {
+      return this.level_score >= 100;
     }
   },
   actions: {
@@ -79,13 +82,22 @@ export const useRuntimeStore = defineStore('RuntimeStore', {
       this.checkPowerTile(word)
     },
     processStringSubmission(word) {
+      const potential_score = this.level_score + word.length;
+
+      this.level_score = (potential_score > 100)? 100: potential_score
+
       this.score += word.length;
-      this.level_score += word.length;
       this.success++;
     },
     missedWord(word) {
-      let hp_deduction = word.length + 10;
-      this.hp -= hp_deduction
+      let hp_deduction = word.length - 20;
+      const limit_deduction = 8;
+      // limit to 10
+      if(hp_deduction <= limit_deduction) {
+        hp_deduction = -limit_deduction
+      }
+
+      this.hp += hp_deduction
     },
     cleanDroppingWords() {
       this.dropping_words = [];
@@ -137,8 +149,20 @@ export const useRuntimeStore = defineStore('RuntimeStore', {
     },
     clearActivePowerTile(power_name) {
       const index = this.active_power_tile.findIndex(x => x.name === power_name)
-      console.log("cleartile", power_name, index)
       this.active_power_tile.splice(index, 1)
     },
+    levelPitStop() {
+
+    },
+    prepareNextLevel() {
+      
+      this.hp = 100;
+      this.level_score = 0;
+      
+    },
+    setupNextLevel() {
+      const word_diff_max = 274000;
+      this.word_difficulty 
+    }
   },
 })

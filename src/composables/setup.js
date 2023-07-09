@@ -20,7 +20,7 @@ export function getSetup() {
     tile_color: 'transparent',
     tile_text: 'black',
     chances: {
-      power_tile: 50,
+      power_tile: 90,
       faster_tile: 20,
       double_speed: 10,
     },
