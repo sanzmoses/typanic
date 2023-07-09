@@ -22,7 +22,9 @@
         </template>
 
         <div class="input-string">
-          <span>{{ input_string }}</span>
+          <template v-for="(letter, index) in input_string" :key="letter+'-'+index">
+            <span class="letter">{{ letter }}</span>
+          </template>    
         </div>
 
         <input 
@@ -209,6 +211,20 @@ export default {
   font-size: 25px;
   color: black;
   font-weight: bold;
+
+  .letter {
+    height: 32px;
+    width: 32px;
+    border: 2px solid black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 5px;
+
+    &:last-child {
+      margin-right: 0px;
+    }
+  }
 }
 
 .game-input {
