@@ -5,9 +5,13 @@
       height: gamebox.height + 'px'
     }"
   >
+  <div class="overlay-effect bg-ice">
+      <div class="aftereffect after-freeze"></div>
+    </div> 
     <div class="overlay-effect bg-slow"></div> 
-    <div class="overlay-effect bg-ice"></div> 
-    <div class="overlay-effect bg-fire"></div> 
+    <div class="overlay-effect bg-fire">
+      <div class="aftereffect after-burn"></div>
+    </div> 
     <div class="overlay-effect bg-heal"></div> 
     
   </div>
@@ -33,19 +37,19 @@ export default {
       is_power_heal_active,
     } = storeToRefs(runtime)
 
-    let ice, slow, fire, heal;
+    let ice, slow, fire, heal, afterFreeze;
 
     watch(is_power_ice_active, () => { 
-      (is_power_ice_active.value)? ice.play(): ice.reverse();
+      if(is_power_ice_active.value) {
+        ice.restart()
+      } else {
+        afterFreeze.restart()
+      }
     })
 
     watch(is_power_fire_active, () => { 
       if(is_power_fire_active.value) {
-        fire.play()
-
-        setTimeout(() => {
-          fire.reverse()
-        }, 1000)
+        fire.restart()
       }
     })
 
@@ -69,16 +73,40 @@ export default {
       })
 
       const values = {
+        ease: "power4.out",
         opacity: 1,
         duration: .4,
-        scale: 15,
-        paused: true,
+        scale: 1.75,
+        height: setup.value.width,
+        width: setup.value.width,
       }
 
-      ice = gsap.to('.bg-ice', values)
-      fire = gsap.to('.bg-fire', values)
-      slow = gsap.to('.bg-slow', values)
-      heal = gsap.to('.bg-heal', values)
+      slow = gsap.to('.bg-slow', { ...values, paused: true })
+      heal = gsap.to('.bg-heal', { ...values, paused: true })
+      ice = gsap.to('.bg-ice', { ...values, paused: true })
+
+      afterFreeze = gsap.timeline({ paused: true });
+      afterFreeze.to('.after-freeze', {
+        ...values,
+        ease: "power2.out",
+        scale: 1.7,
+      })
+      afterFreeze.to('.bg-ice, .after-freeze', {
+        opacity: 0,
+        delay: .4
+      })
+
+      fire = gsap.timeline({ paused: true });
+      fire.to('.bg-fire',  {...values})
+      fire.to('.after-burn', {
+        ...values,
+        scale: 2,
+        delay: .2,
+      })
+      fire.to('.bg-fire', {
+        opacity: 0,
+        delay: .1,
+      })
     })
 
     return {
@@ -98,23 +126,42 @@ export default {
   right: 0;
   bottom: 0;
   border-radius: 50%;
-  width: 100px;
-  height: 100px;
+  width: 0px;
+  height: 0px;
   &.bg-ice {
     background: rgb(187,255,255);
-    background: linear-gradient(315deg, rgba(187,255,255,1) 0%, rgba(89,225,255,1) 100%);
+    background: linear-gradient(315deg, rgb(154, 255, 242) 0%, rgb(0, 208, 255) 100%);
+    border: 3px solid rgb(0, 68, 255);
   }
   &.bg-fire {
     background: #FF6400;
-    background: linear-gradient(152deg, #9F0000 0%, #FF6400 58.33%, #FFE500 100%);
+    background: linear-gradient(152deg, #ffcb47 0%, #ff8521 100%);
+    border: 3px solid rgb(255, 0, 0);
   }
   &.bg-slow {
     background: #FF6400;
     background: linear-gradient(152deg, #FFF 0%, #FF8AF3 100%);
+    border: 3px solid rgb(255, 0, 195);
   }
   &.bg-heal {
     background: #FF6400;
     background: linear-gradient(152deg, #FFF 0%, #9CFFA6 100%);
+  }
+  .aftereffect {
+    opacity: 0;
+    position: absolute;
+    right: calc(50% - 100px);
+    bottom: calc(50% - 100px);
+    border-radius: 50%;
+    width: 0px;
+    height: 0px;
+    &.after-burn {
+      background: rgb(255, 236, 168);
+    }
+    &.after-freeze {
+      background: rgb(229, 255, 255);
+      border: 2px solid rgb(28, 99, 252);
+    }
   }
 }
 </style>

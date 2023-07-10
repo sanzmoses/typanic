@@ -30,6 +30,7 @@
         </div>
 
         <input 
+          ref="inputField"
           class="game-input" 
           v-model="input_string" 
           @keyup.enter="submitString"
@@ -65,7 +66,7 @@
 </template>
 
 <script>
-import WordTile from "@/components/WordTile.vue"
+import WordTile from "@/components/GameProper/WordTile.vue"
 import Status from "./Status/index.vue"
 import NewGameOverlay from "./Components/NewGameOverlay.vue"
 import OverallScore from "./Components/OverallScore.vue"
@@ -101,8 +102,9 @@ export default {
     } = storeToRefs(runtime)
 
     const input_string = ref('')
+    const inputField = ref(null)
     const start = ref(false)
-    const counter = ref(5)
+    const counter = ref(3)
     const counting = ref(false)
 
     runtime.setPreparedWords(grabHundredWords())
@@ -126,6 +128,7 @@ export default {
 
         if(counter.value === 0) {
           counting.value = false;
+          inputField.value.focus();
           addWords();
         } else {
           countDown();
@@ -190,6 +193,7 @@ export default {
       start,
       counter,
       counting,
+      inputField
     }
   }
 }

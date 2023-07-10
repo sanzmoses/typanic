@@ -3,7 +3,7 @@ import _ from 'lodash'
 
 export const useRuntimeStore = defineStore('RuntimeStore', {
   state: () => ({
-    ice_duration: 5, //seconds
+    ice_duration: 10, //seconds
     slow_duration: 10, //seconds
     count: 200,
     score: 0,
@@ -24,7 +24,13 @@ export const useRuntimeStore = defineStore('RuntimeStore', {
     registered_word: "",
     success: 0,
     ignored: 0,
-    power_tiles: [],
+    power_tiles: [
+      { name: 'fire', color: 'purple-8', icon: 'hourglass_empty' },
+      { name: 'fire', color: 'blue-9', icon: 'ac_unit' },
+      { name: 'fire', color: 'red-10', icon: 'whatshot' },
+      { name: 'fire', color: 'green-14', icon: 'health_and_safety' },
+      { name: 'fire', color: 'red-10', icon: 'whatshot' },
+    ],
     active_power_tile: [],
   }),
   getters: {
@@ -120,6 +126,10 @@ export const useRuntimeStore = defineStore('RuntimeStore', {
         this.clearActivePowerTile('fire')
       }, 1)
 
+      const endHeal = _.debounce(() => {
+        this.clearActivePowerTile('fire')
+      }, 1)
+
       const endSlow = _.debounce(() => {
         this.clearActivePowerTile('slow')
       }, this.slow_duration * 1000)
@@ -131,7 +141,7 @@ export const useRuntimeStore = defineStore('RuntimeStore', {
       switch(power_tile.name) {
         case 'heal': 
           this.heal(50)
-          this.clearActivePowerTile('heal')
+          endHeal()
           break;
         case 'fire': 
           endBurn()

@@ -12,6 +12,8 @@
       :color="power_tile.color" 
       text-color="white" 
     /> -->
+    <WordTileEffect :word="word" />
+
     <p class="word ma-0">
       <span class="highlighted">{{ highlighted_letters }}</span>{{ remaining_letters }}      
     </p>
@@ -25,9 +27,13 @@ import { ref, onMounted, computed, watchEffect, watch } from 'vue'
 import { getSetup } from '@/composables/setup.js'
 import { useRuntimeStore } from '@/stores/RuntimeStore'
 import { storeToRefs } from 'pinia'
+import WordTileEffect from './WordTileEffect.vue'
 
 export default {
   name: "WordTile",
+  components: {
+    WordTileEffect
+  },
   props: {
     word: {
       type: String,
@@ -228,9 +234,10 @@ export default {
   border: 2px solid;
   border-image-slice: 1;
   border-image-source: #000000;
-  
+  overflow: visible !important;
   .word {
     font-size: 15px;
+    z-index: 99;
   }
 
   .highlighted {
