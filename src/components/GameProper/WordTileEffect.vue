@@ -1,5 +1,10 @@
 <template>
-  <div class="tile-overlay">
+  <div ref="tileEffect" class="tile-overlay">
+    <div class="fire-effect">
+      <template v-for="particle in particles" :key="'p-'+particle">
+        <div :class="['particles', 'particles-'+particle]"></div>
+      </template>
+    </div>
   </div>
 </template>
 
@@ -7,79 +12,83 @@
 import { useRuntimeStore } from '@/stores/RuntimeStore'
 import { getSetup } from '@/composables/setup.js'
 import { storeToRefs } from 'pinia'
-import { watch, onMounted } from 'vue'
+import { ref, watch, onMounted } from 'vue'
 import _ from 'lodash'
 import gsap from 'gsap'
 
 export default {
   name: 'Template',
-  setup() {
+  props: {
+    effect: {
+      type: String,
+      required: true,
+    },
+    animate: {
+      type: Boolean,
+      required: true,
+    }
+  },
+  setup(props) {
     const { setup } = getSetup()
     const runtime = useRuntimeStore()
-    const { 
-      is_power_ice_active,
-      is_power_slow_active,
-      is_power_fire_active,
-      is_power_heal_active,
-    } = storeToRefs(runtime)
+    const particles = ref(20)
+    const tileEffect = ref(null)
+    const tile_width = ref(null)
+    const tile_height = ref(null)
 
-    let ice, slow, fire, heal, word;
+    let animate_particles;
 
-    watch(is_power_ice_active, () => { 
-      if(is_power_ice_active.value) {
-        ice.play()
-        word.play()
-      } else {
-        ice.reverse()
-        word.reverse()
-      }
+    watch(() => props.effect, (first) => { 
+      console.log("props first", first)
+      console.log("props first", props.animate)
     })
 
-    // watch(is_power_fire_active, () => { 
-    //   if(is_power_fire_active.value) {
-    //     fire.restart()
-    //   }
-    // })
-
-    // watch(is_power_slow_active, () => { 
-    //   (is_power_slow_active.value)? slow.play(): slow.reverse();
-    // })
-
-    // watch(is_power_heal_active, () => { 
-    //   if(is_power_heal_active.value) {
-    //     heal.play()
-
-    //     setTimeout(() => {
-    //       heal.reverse()
-    //     }, 1000)
-    //   }
-    // })
-
     onMounted(() => {
-      gsap.set('.tile-overlay', {
-        opacity: 0,
-      })
+      tile_width.value = tileEffect.value.getBoundingClientRect().width;
+      tile_height.value = tileEffect.value.getBoundingClientRect().height;
 
-      const values = {
-        ease: "power4.out",
-        opacity: 1,
-        backgroundColor: '00C2FF',
-        borderColor: 'white',
-        duration: .4,
-        paused: true,
+      // gsap.set('.tile-overlay', {
+      //   opacity: 1,
+      // })
+
+      // const values = {
+      //   ease: "power4.out",
+      //   opacity: 1,
+      //   backgroundColor: '00C2FF',
+      //   borderColor: 'white',
+      //   duration: .4,
+      //   paused: true,
+      // }
+
+      console.log("particles.value", particles.value)
+      for(let i = 0; i < particles.value; i++) {
+        let random_position = {
+          x: Math.floor(_.random(0, tile_width.value)),
+          y: Math.floor(_.random(0, tile_height.value))
+        }
+
+        console.log(random_position)
+
+        gsap.set('.particles-'+i, {
+          x: random_position.x,
+          y: random_position.y
+        })
+        
       }
 
-      ice = gsap.to('.tile-overlay', values)
-      word = gsap.to('.word', {
-        duration: .4,
-        color: 'white',
-        paused: true,
-      })
+      // ice = gsap.to('.tile-overlay', values)
+      // word = gsap.to('.word', {
+      //   duration: .4,
+      //   color: 'white',
+      //   paused: true,
+      // })
 
     })
 
     return {
       gamebox: setup,
+      particles,
+      tileEffect
     }
   }
 }
@@ -88,12 +97,19 @@ export default {
 <style lang="scss" scoped>
 .tile-overlay {
   position: absolute;
-  overflow: hidden;
-  top: -2px;
-  left: -2px;
-  width: 104%;
-  height: 115%;
-  border: 2.5px solid;
-  z-index: 1;
+  border-radius: 0px !important;
+  overflow: visible !important;
+  width: 100% !important;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+
+.particles {
+  position: absolute;
+  display: block;
+  background-color: red;
+  width: 5px;
+  height: 5px;
 }
 </style>

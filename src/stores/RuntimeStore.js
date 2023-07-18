@@ -27,9 +27,9 @@ export const useRuntimeStore = defineStore('RuntimeStore', {
     power_tiles: [
       { name: 'fire', color: 'purple-8', icon: 'hourglass_empty' },
       { name: 'fire', color: 'blue-9', icon: 'ac_unit' },
-      { name: 'fire', color: 'red-10', icon: 'whatshot' },
-      { name: 'fire', color: 'green-14', icon: 'health_and_safety' },
-      { name: 'fire', color: 'red-10', icon: 'whatshot' },
+      { name: 'slow', color: 'red-10', icon: 'whatshot' },
+      { name: 'ice', color: 'green-14', icon: 'health_and_safety' },
+      { name: 'ice', color: 'red-10', icon: 'whatshot' },
     ],
     active_power_tile: [],
   }),
@@ -122,12 +122,11 @@ export const useRuntimeStore = defineStore('RuntimeStore', {
       this.power_tiles.splice(index, 1)
 
       const endBurn = _.debounce(() => {
-        this.cleanDroppingWords()
         this.clearActivePowerTile('fire')
       }, 1)
 
       const endHeal = _.debounce(() => {
-        this.clearActivePowerTile('fire')
+        this.clearActivePowerTile('heal')
       }, 1)
 
       const endSlow = _.debounce(() => {
@@ -165,14 +164,12 @@ export const useRuntimeStore = defineStore('RuntimeStore', {
 
     },
     prepareNextLevel() {
-      
       this.hp = 100;
       this.level_score = 0;
-      
     },
     setupNextLevel() {
       const word_diff_max = 274000;
       this.word_difficulty 
-    }
+    },
   },
 })

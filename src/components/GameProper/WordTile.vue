@@ -1,5 +1,6 @@
 <template>
   <q-chip 
+    ref="el"
     square
     :class="['tile', (power_tile?.name)? power_tile.name+'-tile' : '']" 
     :id="word" 
@@ -12,11 +13,12 @@
       :color="power_tile.color" 
       text-color="white" 
     /> -->
-    <WordTileEffect :word="word" />
 
     <p class="word ma-0">
       <span class="highlighted">{{ highlighted_letters }}</span>{{ remaining_letters }}      
     </p>
+
+    <WordTileEffect :effect="effect" :animate="animate" />
   </q-chip>
 </template>
 
@@ -27,7 +29,7 @@ import { ref, onMounted, computed, watchEffect, watch } from 'vue'
 import { getSetup } from '@/composables/setup.js'
 import { useRuntimeStore } from '@/stores/RuntimeStore'
 import { storeToRefs } from 'pinia'
-import WordTileEffect from './WordTileEffect.vue'
+import WordTileEffect from "./WordTileEffect.vue"
 
 export default {
   name: "WordTile",
@@ -61,9 +63,16 @@ export default {
     } = storeToRefs(runtime)
 
     let drop_animation = null;
+    let end_animation = null;
     const max_width = setup.value.width
     const max_height = setup.value.height
     const x = ref(null)
+    const el = ref(null)
+
+    // tile effect
+    const effect = ref("")
+    const animate = ref(false)
+
     // x position in the plane
     x.value = _.random(1, max_width - 130)
 
@@ -159,6 +168,8 @@ export default {
       if(is_power_fire_active.value) {
         drop_animation.pause()
         drop_animation.kill()
+
+        end_animation.play();
       }
     })
 
@@ -178,7 +189,9 @@ export default {
         runtime.processStringSubmission(props.word);
         drop_animation.kill();
 
-        runtime.removeWord(props.word)
+        effect.value = "end";
+        animate.value = true;
+        end_animation.play()
         return
       }
 
@@ -213,6 +226,30 @@ export default {
         }
       }); 
 
+      end_animation = gsap.timeline({ 
+        paused: true, 
+        duration: .4, 
+        ease: 'power4.out',
+        onComplete: () => {
+          runtime.removeWord(props.word)
+        },
+      });
+
+      end_animation.to('#'+props.word, {
+        borderColor: 'red',
+        backgroundColor: 'red',
+      }); 
+
+      end_animation.to('#'+props.word+' .word', {
+        color: 'red',
+      }, "<"); 
+
+      end_animation.to('#'+props.word, {
+        borderColor: 'white',
+        backgroundColor: 'white',
+        opacity: 0
+      }); 
+
       setInitialSpeed()
     })
 
@@ -222,6 +259,9 @@ export default {
       power_tile,      
       highlighted_letters,
       remaining_letters,
+      el,
+      effect,
+      animate,
     }
   },
 }
