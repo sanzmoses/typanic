@@ -18,7 +18,11 @@
       <span class="highlighted">{{ highlighted_letters }}</span>{{ remaining_letters }}      
     </p>
 
-    <WordTileEffect :effect="effect" :animate="animate" />
+    <WordTileEffect 
+      :word="word"
+      :effect="effect" 
+      :animate="animate" 
+    />
   </q-chip>
 </template>
 
@@ -169,6 +173,8 @@ export default {
         drop_animation.pause()
         drop_animation.kill()
 
+        effect.value = "fire";
+        animate.value = true;
         end_animation.play();
       }
     })
@@ -189,9 +195,8 @@ export default {
         runtime.processStringSubmission(props.word);
         drop_animation.kill();
 
-        effect.value = "end";
-        animate.value = true;
         end_animation.play()
+        
         return
       }
 
@@ -214,6 +219,7 @@ export default {
       gsap.set('#'+props.word, {
         x: x.value,
         y: -40,
+        borderWidth: 2,
       })
 
       drop_animation = gsap.to('#'+props.word, {
@@ -234,17 +240,17 @@ export default {
           runtime.removeWord(props.word)
         },
       });
-
+      
       end_animation.to('#'+props.word, {
         borderColor: 'red',
         backgroundColor: 'red',
-      }); 
-
-      end_animation.to('#'+props.word+' .word', {
+        borderWidth: 0,
+        borderRadius: 25,
+      })
+      .to('#'+props.word+' .word', {
         color: 'red',
-      }, "<"); 
-
-      end_animation.to('#'+props.word, {
+      }, "<")
+      .to('#'+props.word, {
         borderColor: 'white',
         backgroundColor: 'white',
         opacity: 0

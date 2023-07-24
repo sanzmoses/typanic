@@ -27,9 +27,9 @@ export const useRuntimeStore = defineStore('RuntimeStore', {
     power_tiles: [
       { name: 'fire', color: 'purple-8', icon: 'hourglass_empty' },
       { name: 'fire', color: 'blue-9', icon: 'ac_unit' },
-      { name: 'slow', color: 'red-10', icon: 'whatshot' },
-      { name: 'ice', color: 'green-14', icon: 'health_and_safety' },
-      { name: 'ice', color: 'red-10', icon: 'whatshot' },
+      { name: 'fire', color: 'red-10', icon: 'whatshot' },
+      { name: 'fire', color: 'green-14', icon: 'health_and_safety' },
+      { name: 'fire', color: 'red-10', icon: 'whatshot' },
     ],
     active_power_tile: [],
   }),

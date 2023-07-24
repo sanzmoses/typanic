@@ -2,7 +2,7 @@
   <div ref="tileEffect" class="tile-overlay">
     <div class="fire-effect">
       <template v-for="particle in particles" :key="'p-'+particle">
-        <div :class="['particles', 'particles-'+particle]"></div>
+        <div :class="['particles', 'particles-'+word+'-'+particle]"></div>
       </template>
     </div>
   </div>
@@ -26,21 +26,27 @@ export default {
     animate: {
       type: Boolean,
       required: true,
+    },
+    word: {
+      type: String,
+      required: true,
     }
   },
   setup(props) {
     const { setup } = getSetup()
     const runtime = useRuntimeStore()
-    const particles = ref(20)
+    const particles = ref(1)
     const tileEffect = ref(null)
     const tile_width = ref(null)
     const tile_height = ref(null)
 
+    const word = props.word
+
+    particles.value = Math.floor(_.random(10, 20))
     let animate_particles;
 
     watch(() => props.effect, (first) => { 
-      console.log("props first", first)
-      console.log("props first", props.animate)
+      if(first === 'fire') animate_particles.play();
     })
 
     onMounted(() => {
@@ -60,20 +66,50 @@ export default {
       //   paused: true,
       // }
 
-      console.log("particles.value", particles.value)
-      for(let i = 0; i < particles.value; i++) {
+      animate_particles = gsap.timeline({
+        paused: true, 
+        duration: 1, 
+        ease: 'circ.out',
+      })
+      
+      for(let i = 1; i <= particles.value; i++) {
         let random_position = {
           x: Math.floor(_.random(0, tile_width.value)),
           y: Math.floor(_.random(0, tile_height.value))
         }
 
-        console.log(random_position)
-
-        gsap.set('.particles-'+i, {
+        gsap.set('.particles-'+word+'-'+i, {
+          opacity: 0,
           x: random_position.x,
           y: random_position.y
         })
+
+        let post_rand_pos = {
+          x: Math.floor(_.random(5, 10)),
+          y: Math.floor(_.random(0, tile_height.value)),
+        }
         
+        let rand_duration = _.random(.1, .5)
+
+        animate_particles.to('.particles-'+word+'-'+i, {
+          keyframes: {
+            "20%": {
+              x: random_position.x -= post_rand_pos.x,
+              opacity: 1,
+            },
+            "50%": {
+              x: random_position.x += post_rand_pos.x,
+            },
+            "80": {
+              x: random_position.x -= post_rand_pos.x,
+            },
+            "100%": {
+              x: random_position.x += post_rand_pos.x,
+              y: post_rand_pos.y - 60,
+              opacity: 0,
+            }
+          }
+        }, rand_duration)
       }
 
       // ice = gsap.to('.tile-overlay', values)
@@ -88,7 +124,8 @@ export default {
     return {
       gamebox: setup,
       particles,
-      tileEffect
+      tileEffect,
+      word,
     }
   }
 }
@@ -109,7 +146,8 @@ export default {
   position: absolute;
   display: block;
   background-color: red;
-  width: 5px;
-  height: 5px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
 }
 </style>
