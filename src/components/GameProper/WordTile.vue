@@ -66,8 +66,7 @@ export default {
       is_power_heal_active
     } = storeToRefs(runtime)
 
-    let drop_animation = null;
-    let end_animation = null;
+    let drop_animation = null, fire_animation = null, end_animation = null, ice_animation = null;
     const max_width = setup.value.width
     const max_height = setup.value.height
     const x = ref(null)
@@ -111,6 +110,11 @@ export default {
       return string
     })
 
+    const toggleTileEffect = value => {
+      effect.value = value.effect;
+      animate.value = value.animate;
+    }
+
     const setInitialSpeed = () => {
       if(is_power_ice_active.value) {
         drop_animation.pause()
@@ -153,8 +157,18 @@ export default {
 
     watch(is_power_ice_active, () => { 
       if(is_power_ice_active.value) {
+        toggleTileEffect({
+          effect: "ice",
+          animate: true,
+        })
+        ice_animation.play();
         drop_animation.pause()
       } else {
+        toggleTileEffect({
+          effect: "ice",
+          animate: false,
+        })
+        ice_animation.reverse();
         drop_animation.resume()
         setInitialSpeed()
       }
@@ -173,9 +187,12 @@ export default {
         drop_animation.pause()
         drop_animation.kill()
 
-        effect.value = "fire";
-        animate.value = true;
-        end_animation.play();
+        fire_animation.play();
+
+        toggleTileEffect({
+          effect: "fire",
+          animate: true,
+        })
       }
     })
 
@@ -232,28 +249,54 @@ export default {
         }
       }); 
 
-      end_animation = gsap.timeline({ 
+      fire_animation = gsap.timeline({ 
         paused: true, 
-        duration: .4, 
+        duration: .2, 
         ease: 'power4.out',
         onComplete: () => {
           runtime.removeWord(props.word)
         },
       });
-      
-      end_animation.to('#'+props.word, {
+      fire_animation.to('#'+props.word, {
         borderColor: 'red',
-        backgroundColor: 'red',
         borderWidth: 0,
-        borderRadius: 25,
       })
       .to('#'+props.word+' .word', {
         color: 'red',
       }, "<")
       .to('#'+props.word, {
         borderColor: 'white',
-        backgroundColor: 'white',
         opacity: 0
+      }); 
+
+      end_animation = gsap.timeline({ 
+        paused: true, 
+        duration: .1, 
+        ease: "bounce.out",
+        onComplete: () => {
+          runtime.removeWord(props.word)
+        },
+      });
+      end_animation.to('#'+props.word, {
+        keyframes: {
+          opacity: [0, 1, 0, 1]
+        },
+      })
+
+      ice_animation = gsap.timeline({ 
+        paused: true, 
+        duration: .1, 
+        ease: 'power4.out',
+      });
+      ice_animation.to('#'+props.word, {
+        borderColor: 'white',
+        borderWidth: 0,
+      })
+      .to('#'+props.word+' .word', {
+        color: 'white',
+      }, "<")
+      .to('#'+props.word, {
+        borderColor: 'white',
       }); 
 
       setInitialSpeed()
