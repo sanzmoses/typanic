@@ -165,7 +165,7 @@ export default {
         drop_animation.pause()
       } else {
         toggleTileEffect({
-          effect: "ice",
+          effect: "ice-end",
           animate: false,
         })
         ice_animation.reverse();

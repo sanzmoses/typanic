@@ -6,7 +6,7 @@
       </template>
     </div>
     <div class="ice-effect">
-      <div class="ice-blade"></div>  
+      <div :class="['ice-blade', 'ice-blade-'+word]"></div>  
     </div>
   </div>
 </template>
@@ -49,9 +49,9 @@ export default {
     let animate_particles, animate_blade;
 
     watch(() => props.effect, (first) => { 
-      console.log(first.value)
       if(first === 'fire') animate_particles.play();
       if(first === 'ice') animate_blade.play();
+      if(first === 'ice-end') animate_blade.reverse();
     })
 
     onMounted(() => {
@@ -71,10 +71,14 @@ export default {
       //   paused: true,
       // }
 
-      animate_blade = gsap.to('.ice-blade', {
+      animate_blade = gsap.to('.ice-blade-'+word, {
+        keyframes: {
+          x: [tile_width.value+20, -20]
+        },
         paused: true, 
-        duration: 2, 
+        duration: 1, 
         ease: 'circ.out',
+        repeat: true,
       })
 
       animate_particles = gsap.timeline({
@@ -175,13 +179,12 @@ export default {
   border: 2px solid white;
 
   .ice-blade {
-    position: absolute;
     height: 120%;
     width: 5px;
     background-color: #ffffff;
-    transform: rotate(20deg);
+    transform: rotate(20deg) scale(1.5);
     top: 0;
-    left: 0;
+    left: -20;
   }
 }
 </style>
