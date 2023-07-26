@@ -1,11 +1,11 @@
 <template>
   <div ref="tileEffect" class="tile-overlay">
-    <div class="fire-effect">
+    <div :class="['fire-effect', 'fire-effect-'+word]">
       <template v-for="particle in particles" :key="'p-'+particle">
         <div :class="['particles', 'particles-'+word+'-'+particle]"></div>
       </template>
     </div>
-    <div class="ice-effect">
+    <div :class="['ice-effect', 'ice-effect-'+word]">
       <div :class="['ice-blade', 'ice-blade-'+word]"></div>  
     </div>
   </div>
@@ -46,12 +46,30 @@ export default {
     const word = props.word
 
     particles.value = Math.floor(_.random(15, 20))
-    let animate_particles, animate_blade;
+    let animate_particles, animate_blade, fire_effect, ice_effect;
 
     watch(() => props.effect, (first) => { 
-      if(first === 'fire') animate_particles.play();
-      if(first === 'ice') animate_blade.play();
-      if(first === 'ice-end') animate_blade.reverse();
+      if(first === 'fire') {
+        fire_effect.play()
+        animate_particles.play()
+      }
+
+      if(first.includes("ice+") || first === "ice") {
+        ice_effect.play()
+        animate_blade.play()
+
+        let again = _.debounce(() => {
+          animate_blade.restart();
+          again();
+        }, 4000)
+
+        again();
+      }
+
+      if(first === 'ice-end') {
+        ice_effect.reverse()
+        animate_blade.reverse();
+      }
     })
 
     onMounted(() => {
@@ -72,13 +90,20 @@ export default {
       // }
 
       animate_blade = gsap.to('.ice-blade-'+word, {
+        duration: 0.8, 
         keyframes: {
           x: [tile_width.value+20, -20]
         },
         paused: true, 
-        duration: 1, 
         ease: 'circ.out',
         repeat: true,
+      })
+
+      ice_effect = gsap.to('.ice-effect-'+word, {
+        opacity: 1,
+        duration: 0.4,
+        paused: true, 
+        ease: 'circ.out',
       })
 
       animate_particles = gsap.timeline({
@@ -87,6 +112,13 @@ export default {
         ease: 'circ.out',
       })
       
+      fire_effect = gsap.to('.fire-effect', {
+        duration: .1,
+        opacity: 1,
+        ease: 'Power4.out',
+        paused: true
+      })
+
       for(let i = 1; i <= particles.value; i++) {
         let random_values = {
           x: Math.floor(_.random(0, tile_width.value)),
@@ -172,11 +204,25 @@ export default {
   border-radius: 50%;
 }
 
+.fire-effect {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 2px solid rgb(255, 213, 121);
+  opacity: 0;
+}
 .ice-effect {
+  position: absolute;
+  top: 0;
+  left: 0;
   overflow: hidden;
   width: 100%;
   height: 100%;
   border: 2px solid white;
+  opacity: 0;
+  background-color: #00D1FF;
 
   .ice-blade {
     height: 120%;
@@ -184,7 +230,7 @@ export default {
     background-color: #ffffff;
     transform: rotate(20deg) scale(1.5);
     top: 0;
-    left: -20;
+    left: -20px;
   }
 }
 </style>

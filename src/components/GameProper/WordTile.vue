@@ -285,7 +285,7 @@ export default {
 
       ice_animation = gsap.timeline({ 
         paused: true, 
-        duration: .1, 
+        duration: 0.1, 
         ease: 'power4.out',
       });
       ice_animation.to('#'+props.word, {
