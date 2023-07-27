@@ -2,10 +2,10 @@
   <div class="overlay q-pa-lg row items-center justify-center">
     <q-card class="start-card" flat>
       <q-card-section>
-        <div class="text-h5 mt-2 mb-3">Woohooo!</div>
+        <div class="text-h5 mt-2 mb-3">Game Over!</div>
         
         <div class="text-caption text-grey">
-          This is my attempt to recreate one of my favorite game: "Typing Maniac" by Mindjolt which sadly I could not find in the web anymore. 
+          Total Score:
         </div>
         <div class="text-overline text-orange-9">- Sanz</div>
       </q-card-section>
@@ -16,7 +16,7 @@
           class="px-5" 
           size="22px" 
           color="primary" 
-          label="Start" 
+          label="Play Again" 
           @click="$emit('newGame')" 
         />
       </q-card-actions>

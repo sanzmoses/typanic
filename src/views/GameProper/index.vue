@@ -51,6 +51,16 @@
           enter-active-class="animated zoomIn"
           leave-active-class="animated zoomOut"
         >
+          <template v-if="is_game_over">
+            <GameOverOverlay @newGame="startGame('new')" />
+          </template>
+        </transition>
+
+        <transition
+          appear
+          enter-active-class="animated zoomIn"
+          leave-active-class="animated zoomOut"
+        >
           <div v-show="counting" class="overlay">
             <p class="counter">{{ counter }}</p>
           </div> 
@@ -69,6 +79,7 @@
 import WordTile from "@/components/GameProper/WordTile.vue"
 import Status from "./Status/index.vue"
 import NewGameOverlay from "./Components/NewGameOverlay.vue"
+import GameOverOverlay from "./Components/GameOverOverlay.vue"
 import OverallScore from "./Components/OverallScore.vue"
 import BackgroundEffect from "./Components/BackgroundEffect.vue"
 
@@ -88,6 +99,7 @@ export default {
     NewGameOverlay,
     OverallScore,
     BackgroundEffect,
+    GameOverOverlay,
   },
   setup() {
 
@@ -99,6 +111,7 @@ export default {
       dropping_words, 
       is_power_ice_active,
       is_level_complete,
+      is_game_over,
     } = storeToRefs(runtime)
 
     const input_string = ref('')
@@ -107,7 +120,7 @@ export default {
     const counter = ref(3)
     const counting = ref(false)
 
-    runtime.setPreparedWords(grabHundredWords())
+    
 
     onMounted(() => {
       // setTimeout(() => {
@@ -115,8 +128,14 @@ export default {
       // }, 1000)
     })
 
-    const startGame = () => {
+    const startGame = (state) => {
+      if(state === "new") runtime.$reset();
+      
+      runtime.setPreparedWords(grabHundredWords())
+
+      counter.value = 3;
       start.value = true;
+      
       startGameCountDown();
     }
 
@@ -139,7 +158,9 @@ export default {
     }
 
     const addWords = () => {
-      if(is_level_complete.value) {
+      if(is_level_complete.value || is_game_over.value) {
+        runtime.storePowerTile({name: 'fire'})
+        runtime.checkAndUsePowerTile('fire')
         return;
       }
 
@@ -193,7 +214,8 @@ export default {
       start,
       counter,
       counting,
-      inputField
+      inputField,
+      is_game_over
     }
   }
 }

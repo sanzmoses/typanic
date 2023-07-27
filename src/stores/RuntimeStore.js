@@ -3,54 +3,51 @@ import _ from 'lodash'
 
 export const useRuntimeStore = defineStore('RuntimeStore', {
   state: () => ({
-    ice_duration: 10, //seconds
+    ice_duration: 5, //seconds
     slow_duration: 10, //seconds
     count: 200,
     score: 0,
-    hp: 100,
+    hp: 50,
     level: 1,
-    level_speed: 20, // 25 - 5
+    level_speed: 5, // 25 - 5
     level_score: 0, //to 100
     word_difficulty: {
       min: 10000, // 10000
       max: 50000 // 274000
     },
     spawn: {
-      volume: 1, // 1 - .01
-      delay: 5, // 5 - 1
+      volume: .1, // 1 - .01
+      delay: 1, // 5 - 1
     },
     prepared_words: [],
     dropping_words: [],
     registered_word: "",
     success: 0,
     ignored: 0,
-    power_tiles: [
-      { name: 'fire', color: 'purple-8', icon: 'hourglass_empty' },
-      { name: 'ice', color: 'blue-9', icon: 'ac_unit' },
-      { name: 'ice', color: 'red-10', icon: 'whatshot' },
-      { name: 'ice', color: 'green-14', icon: 'health_and_safety' },
-      { name: 'ice', color: 'red-10', icon: 'whatshot' },
-    ],
+    power_tiles: [],
     active_power_tile: [],
   }),
   getters: {
     is_power_ice_active() {
-      return !!_.find(this.active_power_tile, { name: 'ice'});
+      return !!_.find(this.active_power_tile, { name: 'ice'})
     },
     is_power_slow_active() {
-      return !!_.find(this.active_power_tile, { name: 'slow'});
+      return !!_.find(this.active_power_tile, { name: 'slow'})
     },
     is_power_fire_active() {
-      return !!_.find(this.active_power_tile, { name: 'fire'});
+      return !!_.find(this.active_power_tile, { name: 'fire'})
     },
     is_power_heal_active() {
-      return !!_.find(this.active_power_tile, { name: 'heal'});
+      return !!_.find(this.active_power_tile, { name: 'heal'})
     },
     is_power_active() {
       return this.active_power_tile.length > 0
     },
     is_level_complete() {
-      return this.level_score >= 100;
+      return this.level_score >= 100
+    },
+    is_game_over() {
+      return this.hp <= 0
     }
   },
   actions: {
@@ -85,7 +82,7 @@ export const useRuntimeStore = defineStore('RuntimeStore', {
       this.registered_word = word;
 
       // check for power tile
-      this.checkPowerTile(word)
+      this.checkAndUsePowerTile(word)
     },
     processStringSubmission(word) {
       const potential_score = this.level_score + word.length;
@@ -108,7 +105,7 @@ export const useRuntimeStore = defineStore('RuntimeStore', {
     cleanDroppingWords() {
       this.dropping_words = [];
     },
-    checkPowerTile(word) {
+    checkAndUsePowerTile(word) {
       if(this.power_tiles.length > 0) {
         const index = this.power_tiles.findIndex(x => x.name === word)
 
