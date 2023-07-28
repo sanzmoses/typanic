@@ -5,19 +5,19 @@ export const useRuntimeStore = defineStore('RuntimeStore', {
   state: () => ({
     ice_duration: 5, //seconds
     slow_duration: 10, //seconds
-    count: 200,
+    count: 500,
     score: 0,
     hp: 50,
     level: 1,
-    level_speed: 5, // 25 - 5
+    level_speed: 25, // 25 - 5
     level_score: 0, //to 100
     word_difficulty: {
       min: 10000, // 10000
       max: 50000 // 274000
     },
     spawn: {
-      volume: .1, // 1 - .01
-      delay: 1, // 5 - 1
+      volume: 1, // 1 - .01
+      delay: 5, // 5 - 1
     },
     prepared_words: [],
     dropping_words: [],
@@ -85,22 +85,22 @@ export const useRuntimeStore = defineStore('RuntimeStore', {
       this.checkAndUsePowerTile(word)
     },
     processStringSubmission(word) {
-      const potential_score = this.level_score + word.length;
+      const potential_score = this.level_score + word.length
 
       this.level_score = (potential_score > 100)? 100: potential_score
 
-      this.score += word.length;
-      this.success++;
+      this.success++
     },
     missedWord(word) {
-      let hp_deduction = word.length - 20;
-      const limit_deduction = 8;
+      let hp_deduction = word.length - 20
+      const limit_deduction = 8
       // limit to 10
       if(hp_deduction <= limit_deduction) {
         hp_deduction = -limit_deduction
       }
 
       this.hp += hp_deduction
+      this.ignored++
     },
     cleanDroppingWords() {
       this.dropping_words = [];
@@ -160,9 +160,45 @@ export const useRuntimeStore = defineStore('RuntimeStore', {
     levelPitStop() {
 
     },
+    processPoints() {
+      
+    },
     prepareNextLevel() {
-      this.hp = 100;
-      this.level_score = 0;
+      const word_diff_max_limit = 274000
+      const word_diff_min_limit = 200000
+
+      this.hp = 100
+      this.level_score = 0
+      
+      if(this.level_speed <= 5) {
+        this.level_speed = 5
+      } else {
+        this.level_speed -= 1
+      }
+
+      if(this.word_difficulty.min >= word_diff_min_limit) {
+        this.word_difficulty.min = word_diff_max
+      } else {
+        this.word_difficulty.min += 10000
+      }
+
+      if(this.word_difficulty.max >= word_diff_max_limit) {
+        this.word_difficulty.max = word_diff_max
+      } else {
+        this.word_difficulty.max += 10000
+      }
+
+      if(this.spawn.volume <= 0) {
+        this.spawn.volume = 0.1
+      } else {
+        this.spawn.volume -= 0.1
+      }
+
+      if(this.spawn.delay <= 1) {
+        this.spawn.delay = 1
+      } else {
+        this.spawn.delay -= 1
+      }
     },
     setupNextLevel() {
       const word_diff_max = 274000;

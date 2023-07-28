@@ -7,7 +7,6 @@
         <div class="text-caption text-grey">
           Total Score:
         </div>
-        <div class="text-overline text-orange-9">- Sanz</div>
       </q-card-section>
 
       <q-card-actions align="center">

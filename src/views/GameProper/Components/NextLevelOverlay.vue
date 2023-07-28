@@ -5,9 +5,21 @@
         <div class="text-h5 mt-2 mb-3">Woohooo!</div>
         
         <div class="text-caption text-grey">
-          This is my attempt to recreate one of my favorite game: "Typing Maniac" by Mindjolt which sadly I could not find in the web anymore. 
+          Level Score:
         </div>
-        <div class="text-overline text-orange-9">- Sanz</div>
+        <div class="text-caption text-grey">
+          <!-- 
+            perfect execution, 
+            no ignored words, 
+            no wrong submissions, 
+            extra power tiles 
+            word streaks
+          -->
+          Bonus Points:
+        </div>
+        <div class="text-caption text-grey">
+          Total Points:
+        </div>
       </q-card-section>
 
       <q-card-actions align="center">
