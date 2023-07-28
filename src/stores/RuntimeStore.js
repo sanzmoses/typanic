@@ -7,7 +7,7 @@ export const useRuntimeStore = defineStore('RuntimeStore', {
     slow_duration: 10, //seconds
     count: 500,
     score: 0,
-    hp: 50,
+    hp: 100,
     level: 1,
     level_speed: 25, // 25 - 5
     level_score: 0, //to 100
@@ -22,10 +22,12 @@ export const useRuntimeStore = defineStore('RuntimeStore', {
     prepared_words: [],
     dropping_words: [],
     registered_word: "",
-    success: 0,
-    ignored: 0,
     power_tiles: [],
     active_power_tile: [],
+    success: 0,
+    ignored: 0,
+    streak: 0,
+    level_bonus_points: 0
   }),
   getters: {
     is_power_ice_active() {
@@ -90,6 +92,7 @@ export const useRuntimeStore = defineStore('RuntimeStore', {
       this.level_score = (potential_score > 100)? 100: potential_score
 
       this.success++
+      this.streak++
     },
     missedWord(word) {
       let hp_deduction = word.length - 20
@@ -101,6 +104,7 @@ export const useRuntimeStore = defineStore('RuntimeStore', {
 
       this.hp += hp_deduction
       this.ignored++
+      this.streak = 0
     },
     cleanDroppingWords() {
       this.dropping_words = [];
@@ -157,18 +161,34 @@ export const useRuntimeStore = defineStore('RuntimeStore', {
       const index = this.active_power_tile.findIndex(x => x.name === power_name)
       this.active_power_tile.splice(index, 1)
     },
-    levelPitStop() {
+    processPoints(point) {
+      // bonus/score
 
-    },
-    processPoints() {
+      if(point === 'bonus') {
+        if(this.success >= 0) {
+          this.level_bonus_points += (this.success + this.level) * this.level
+        }
+  
+        if(this.streak >= 0) {
+          this.level_bonus_points += (this.streak + this.level) * this.level
+        }
+      }
       
+      if(point === 'score') {
+        this.score += this.level_bonus_points + this.level_score
+      }
     },
     prepareNextLevel() {
       const word_diff_max_limit = 274000
       const word_diff_min_limit = 200000
 
+      this.level_bonus_points = 0;
+      this.success = 0
+      this.ignored = 0
+      this.streak = 0
       this.hp = 100
       this.level_score = 0
+      this.level++;
       
       if(this.level_speed <= 5) {
         this.level_speed = 5

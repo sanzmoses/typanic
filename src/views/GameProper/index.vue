@@ -61,6 +61,16 @@
           enter-active-class="animated zoomIn"
           leave-active-class="animated zoomOut"
         >
+          <template v-if="is_level_complete">
+            <NextLevelOverlay @start="startGame('next')" />
+          </template>
+        </transition>
+
+        <transition
+          appear
+          enter-active-class="animated zoomIn"
+          leave-active-class="animated zoomOut"
+        >
           <div v-show="counting" class="overlay">
             <p class="counter">{{ counter }}</p>
           </div> 
@@ -78,10 +88,11 @@
 <script>
 import WordTile from "@/components/GameProper/WordTile.vue"
 import Status from "./Status/index.vue"
-import NewGameOverlay from "./Components/NewGameOverlay.vue"
-import GameOverOverlay from "./Components/GameOverOverlay.vue"
 import OverallScore from "./Components/OverallScore.vue"
 import BackgroundEffect from "./Components/BackgroundEffect.vue"
+import NewGameOverlay from "./Components/NewGameOverlay.vue"
+import GameOverOverlay from "./Components/GameOverOverlay.vue"
+import NextLevelOverlay from "./Components/NextLevelOverlay.vue"
 
 import { getSetup } from '@/composables/setup.js'
 
@@ -100,6 +111,7 @@ export default {
     OverallScore,
     BackgroundEffect,
     GameOverOverlay,
+    NextLevelOverlay,
   },
   setup() {
 
@@ -120,8 +132,7 @@ export default {
     const counter = ref(3)
     const counting = ref(false)
 
-    
-
+  
     onMounted(() => {
       // setTimeout(() => {
       //   addWords();
@@ -130,7 +141,8 @@ export default {
 
     const startGame = (state) => {
       if(state === "new") runtime.$reset();
-      
+      if(state === "next") runtime.prepareNextLevel();
+
       runtime.setPreparedWords(grabHundredWords())
 
       counter.value = 3;
@@ -215,7 +227,8 @@ export default {
       counter,
       counting,
       inputField,
-      is_game_over
+      is_game_over,
+      is_level_complete
     }
   }
 }
