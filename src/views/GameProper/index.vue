@@ -171,8 +171,6 @@ export default {
 
     const addWords = () => {
       if(is_level_complete.value || is_game_over.value) {
-        runtime.storePowerTile({name: 'fire'})
-        runtime.checkAndUsePowerTile('fire')
         return;
       }
 

@@ -27,12 +27,13 @@
 
       <q-card-actions align="center">
         <q-btn 
-          flat 
+          :disabled="!is_ready"
+          @click="nextLevel" 
           class="px-5" 
           size="22px" 
           color="primary" 
           label="Next Level" 
-          @click="nextLevel" 
+          flat
         />
       </q-card-actions>
     </q-card>
@@ -55,6 +56,8 @@ export default {
       level_score,
     } = storeToRefs(runtime)
 
+    const is_ready = ref(false)
+
     runtime.processPoints('bonus')
 
     const nextLevel = () => {
@@ -69,6 +72,9 @@ export default {
         duration: 3,
         ease: "power4.out",
         delay: 1,
+        onComplete: () => {
+          is_ready.value = true
+        }
       })
 
       timeline
@@ -81,7 +87,8 @@ export default {
 
     return {
       level,
-      nextLevel
+      nextLevel,
+      is_ready
     }
   }
 }

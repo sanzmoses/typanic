@@ -10,7 +10,7 @@ export const useRuntimeStore = defineStore('RuntimeStore', {
     hp: 100,
     level: 1,
     level_speed: 25, // 25 - 5
-    level_score: 0, //to 100
+    level_score: 0, // to 100
     word_difficulty: {
       min: 10000, // 10000
       max: 50000 // 274000
@@ -27,7 +27,8 @@ export const useRuntimeStore = defineStore('RuntimeStore', {
     success: 0,
     ignored: 0,
     streak: 0,
-    level_bonus_points: 0
+    level_bonus_points: 0,
+    set_on_fire: false,
   }),
   getters: {
     is_power_ice_active() {
@@ -37,7 +38,8 @@ export const useRuntimeStore = defineStore('RuntimeStore', {
       return !!_.find(this.active_power_tile, { name: 'slow'})
     },
     is_power_fire_active() {
-      return !!_.find(this.active_power_tile, { name: 'fire'})
+      return !!_.find(this.active_power_tile, { name: 'fire'}) 
+      || this.set_on_fire
     },
     is_power_heal_active() {
       return !!_.find(this.active_power_tile, { name: 'heal'})
@@ -53,6 +55,15 @@ export const useRuntimeStore = defineStore('RuntimeStore', {
     }
   },
   actions: {
+    setOnFire() {
+      this.set_on_fire = true
+
+      const endFire = _.debounce(() => {
+        this.set_on_fire = false
+      }, 1)
+
+      endFire();
+    },
     heal(points) {
       const futureHp = this.hp + points;
       if(futureHp > 100) {
@@ -89,7 +100,12 @@ export const useRuntimeStore = defineStore('RuntimeStore', {
     processStringSubmission(word) {
       const potential_score = this.level_score + word.length
 
-      this.level_score = (potential_score > 100)? 100: potential_score
+      if((potential_score >= 100)) {
+        this.setOnFire()
+        this.level_score = 100
+      } else {
+        this.level_score = potential_score
+      }
 
       this.success++
       this.streak++
@@ -105,6 +121,10 @@ export const useRuntimeStore = defineStore('RuntimeStore', {
       this.hp += hp_deduction
       this.ignored++
       this.streak = 0
+
+      if(this.hp <= 0) {
+        this.setOnFire()
+      }
     },
     cleanDroppingWords() {
       this.dropping_words = [];
@@ -179,8 +199,13 @@ export const useRuntimeStore = defineStore('RuntimeStore', {
       }
     },
     prepareNextLevel() {
-      const word_diff_max_limit = 274000
-      const word_diff_min_limit = 200000
+      const limits = {
+        word_diff_max: 274000,
+        word_diff_min: 100000,
+        level_speed: 5, // 25 - 5
+        spawn_volume: 0.5, // 1 - 0.1
+        spawn_delay: 1, // 5 - 1
+      }
 
       this.level_bonus_points = 0;
       this.success = 0
@@ -191,38 +216,34 @@ export const useRuntimeStore = defineStore('RuntimeStore', {
       this.level++;
       
       if(this.level_speed <= 5) {
-        this.level_speed = 5
+        this.level_speed = limits.level_speed
       } else {
-        this.level_speed -= 1
+        this.level_speed -= 2
       }
 
-      if(this.word_difficulty.min >= word_diff_min_limit) {
-        this.word_difficulty.min = word_diff_max
+      if(this.word_difficulty.min >= limits.word_diff_min) {
+        this.word_difficulty.min = limits.word_diff_min
       } else {
-        this.word_difficulty.min += 10000
+        this.word_difficulty.min += 20000
       }
 
-      if(this.word_difficulty.max >= word_diff_max_limit) {
-        this.word_difficulty.max = word_diff_max
+      if(this.word_difficulty.max >= limits.word_diff_max) {
+        this.word_difficulty.max = limits.word_diff_max
       } else {
-        this.word_difficulty.max += 10000
+        this.word_difficulty.max += 20000
       }
 
-      if(this.spawn.volume <= 0) {
-        this.spawn.volume = 0.1
+      if(this.spawn.volume <= limits.spawn_volume) {
+        this.spawn.volume = limits.spawn_volume
       } else {
-        this.spawn.volume -= 0.1
+        this.spawn.volume -= 0.05
       }
 
-      if(this.spawn.delay <= 1) {
-        this.spawn.delay = 1
+      if(this.spawn.delay <= limits.spawn_delay) {
+        this.spawn.delay = limits.spawn_delay
       } else {
-        this.spawn.delay -= 1
+        this.spawn.delay -= 0.5
       }
-    },
-    setupNextLevel() {
-      const word_diff_max = 274000;
-      this.word_difficulty 
     },
   },
 })
