@@ -130,6 +130,14 @@ blockquote {
 @include padding-classes;
 /** End of Utility **/
 
+@mixin radius-classes {
+  @for $i from 0 through $utility-sizes {
+    $radius: $i * 0.5em;
+    .rounded-#{$i} {border-radius: $radius !important;}}
+}
+@include radius-classes;
+/** End of Utility **/
+
 
 .overlay {
   position: absolute;
@@ -140,4 +148,17 @@ blockquote {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.custom-btn {
+  position: relative;
+  display: block;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  outline: none;
+
+  .label {
+    margin-top: .3rem !important;
+  }
 }

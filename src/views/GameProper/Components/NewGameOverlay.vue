@@ -1,30 +1,37 @@
 <template>
   <div class="overlay q-pa-lg row items-center justify-center">
-    <q-card class="start-card" flat>
-      <q-img
-        src="https://picsum.photos/1000/500?random=1"
-      />
+    <div class="ng-container">
+      
+      <p class="text-h5 text-black">Welcome to Typanic!</p>
 
-      <q-card-section>
-        <div class="text-h5 mt-2 mb-3">Welcome to Typanic!</div>
-        
-        <div class="text-caption text-grey">
-          This is my attempt to recreate one of my favorite game: "Typing Maniac" by Mindjolt which sadly I could not find in the web anymore. 
-        </div>
-        <div class="text-overline text-orange-9">- Sanz</div>
-      </q-card-section>
+      <div class="text-container text-black ">
+        <p class="text-body2 text-weight-medium">
+          This is my attempt <br> 
+          to recreate one of <br> 
+          my favorite game: <br>
+          "Typing Maniac" <br> 
+          by Mindjolt <br> 
+          which sadly I <br> 
+          could not find <br> 
+          in the web <br> 
+          anymore. 
+        </p>
+        <p class="text-body2 text-weight-medium">Enjoy! :)</p>
+        <p class="text-body1 text-weight-medium">- sanz</p>
+      </div>
 
-      <q-card-actions align="center">
-        <q-btn 
-          flat 
-          class="px-5" 
-          size="22px" 
-          color="primary" 
-          label="Start" 
-          @click="$emit('start')" 
+      <div class="text-right flex items-end justify-end">
+        <TButton 
+          label="PLAY" 
+          width="200px"
+          height="65px"
+          font_size="3em"
+          color="bg-amber-6"
+          @click="$emit('start')"
         />
-      </q-card-actions>
-    </q-card>
+      </div>
+      
+    </div>
   </div>
 </template>
 
@@ -33,9 +40,13 @@ import { useRuntimeStore } from '@/stores/RuntimeStore'
 import { storeToRefs } from 'pinia'
 import { ref, onMounted } from 'vue'
 import _ from 'lodash'
+import TButton from "@/components/TButton.vue"
 
 export default {
   name: 'NewGameDialog',
+  components: {
+    TButton,
+  },
   setup() {
     const runtime = useRuntimeStore()
     const { level } = storeToRefs(runtime)
@@ -55,8 +66,12 @@ export default {
 </script> 
 
 <style lang="scss" scoped>
-
-.start-card {
+.ng-container {
   width: 350px;
+}
+
+.text-container {
+  border-left: 2px solid black;
+  padding-left: 2em;
 }
 </style>
