@@ -8,7 +8,9 @@
       fontSize: font_size
     }"
   >
-    <q-card :class="['shape rounded-0', color]"
+    <q-card :class="['shape rounded-0', color, {
+      'left': from_left
+    }]"
       :flat="true"
       :style="{
         width: `calc(${width} - 95%)`,
@@ -20,6 +22,7 @@
 
 <script>
 export default {
+  name: "CustomButton",
   props: {
     label: {
       type: String,
@@ -40,6 +43,10 @@ export default {
     font_size: {
       type: String,
       default: "1em"
+    },
+    from_left: {
+      type: Boolean,
+      default: false
     }
   }
   
@@ -54,6 +61,10 @@ export default {
   height: 100%;
   width: 10px;
   transition: all 0.2s ease-out;
+
+  &.left {
+    left: 0 !important;
+  }
 }
 
 .label {
