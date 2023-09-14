@@ -97,22 +97,24 @@ export default {
   }
   .label {
     position: relative;
-    padding: .3em .5em 0em;
+    padding: 0em 0.5em;
     display: inline-block;
+    height: 2em;
 
     p {
       color: white !important;
+      margin-top: 5px;
     }
 
     .triangle {
       position: absolute;
       top: 0;
-      right: -1.8em;
+      right: -34px;
       width: 0px;
       height: 0px;
       border-left: 0em solid;
-      border-right: 1.8em solid transparent;
-      border-bottom: 1.8em solid;
+      border-right: 2.5em solid transparent;
+      border-bottom: 2em solid;
     }
   }
 

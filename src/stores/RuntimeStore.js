@@ -10,7 +10,7 @@ export const useRuntimeStore = defineStore('RuntimeStore', {
     hp: 100,
     level: 1,
     level_speed: 25, // 25 - 5
-    level_score: 0, // to 100
+    level_score: 99, // to 100
     word_difficulty: {
       min: 10000, // 10000
       max: 50000 // 274000
@@ -24,11 +24,23 @@ export const useRuntimeStore = defineStore('RuntimeStore', {
     registered_word: "",
     power_tiles: [],
     active_power_tile: [],
-    success: 0,
-    ignored: 0,
-    streak: 0,
-    level_bonus_points: 0,
+    overall: {
+      power_tile: 0,
+      success: 0,
+      ignored: 0,
+      streak: 0,
+      mistakes: 0,
+    },
     set_on_fire: false,
+    level_stats: {
+      power_tile: 0,
+      success: 0,
+      ignored: 0,
+      streak: 0,
+      mistakes: 0,
+      bonus_points: 0,
+    },
+    current_highest_streak: 0,
   }),
   getters: {
     is_power_ice_active() {
@@ -107,8 +119,12 @@ export const useRuntimeStore = defineStore('RuntimeStore', {
         this.level_score = potential_score
       }
 
-      this.success++
-      this.streak++
+      this.level_stats.success++
+      this.level_stats.streak++
+
+      if(this.level_stats.streak > this.current_highest_streak) {
+        this.current_highest_streak = this.level_stats.streak
+      }
     },
     missedWord(word) {
       let hp_deduction = word.length - 20
@@ -119,8 +135,8 @@ export const useRuntimeStore = defineStore('RuntimeStore', {
       }
 
       this.hp += hp_deduction
-      this.ignored++
-      this.streak = 0
+      this.level_stats.ignored++
+      this.level_stats.streak = 0
 
       if(this.hp <= 0) {
         this.setOnFire()
@@ -174,7 +190,10 @@ export const useRuntimeStore = defineStore('RuntimeStore', {
       }
     },
     storePowerTile(tile) {
-      if(this.power_tiles.length >= 5) return
+      if(this.power_tiles.length >= 5) {
+        this.level_stats.power_tile++
+        return
+      }
       this.power_tiles.push(tile)
     },
     clearActivePowerTile(power_name) {
@@ -182,23 +201,33 @@ export const useRuntimeStore = defineStore('RuntimeStore', {
       this.active_power_tile.splice(index, 1)
     },
     processPoints(point) {
-      // bonus/score
+      if(point === 'overall') {
+        Object.keys(this.overall).forEach(key => {
+          this.overall[key] += this.level_stats[key]
+        })
+      }
 
       if(point === 'bonus') {
-        if(this.success >= 0) {
-          this.level_bonus_points += (this.success + this.level) * this.level
+        if(this.level_stats.success >= 0) {
+          this.level_stats.bonus_points 
+          += (this.level_stats.success + this.level) 
+          * this.level
         }
   
-        if(this.streak >= 0) {
-          this.level_bonus_points += (this.streak + this.level) * this.level
+        if(this.level_stats.streak >= 0) {
+          this.level_stats.bonus_points 
+          += (this.level_stats.streak + this.level) 
+          * this.level
         }
       }
       
       if(point === 'score') {
-        this.score += this.level_bonus_points + this.level_score
+        this.score += this.level_stats.bonus_points + this.level_score
       }
     },
     prepareNextLevel() {
+      this.processPoints('overall')
+
       const limits = {
         word_diff_max: 274000,
         word_diff_min: 100000,
@@ -207,10 +236,15 @@ export const useRuntimeStore = defineStore('RuntimeStore', {
         spawn_delay: 1, // 5 - 1
       }
 
-      this.level_bonus_points = 0;
-      this.success = 0
-      this.ignored = 0
-      this.streak = 0
+      this.level_stats = {
+        power_tile: 0,
+        success: 0,
+        ignored: 0,
+        streak: 0,
+        mistakes: 0,
+        bonus_points: 0,
+      }
+
       this.hp = 100
       this.level_score = 0
       this.level++;
@@ -245,5 +279,8 @@ export const useRuntimeStore = defineStore('RuntimeStore', {
         this.spawn.delay -= 0.5
       }
     },
+    addMistakes() {
+      this.level_stats.mistakes++
+    }
   },
 })

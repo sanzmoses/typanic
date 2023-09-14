@@ -228,6 +228,7 @@ export default {
       }
 
       if(word_try > 1) {
+        runtime.addMistakes();
         drop_animation.totalDuration(5)
       }
     })

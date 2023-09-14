@@ -18,11 +18,26 @@
             color="teal-6"
             :score="level_score"
           >
-        </ScoreCard>
+          </ScoreCard>
+
+          <ScoreCard 
+            :from_left="true"
+            class="mb-5"
+            label="Bonus Points"
+            color="teal-6"
+            :score="bonus_points"
+          >
+          </ScoreCard>
+
+          <ScoreCard 
+            class="mb-5"
+            label="Total Points"
+            color="teal-6"
+            :score="total_points"
+          >
+          </ScoreCard>
         </div>
       
-
-        <div>
           <!-- 
             perfect execution, 
             no ignored words, 
@@ -30,13 +45,6 @@
             extra power tiles 
             word streaks
           -->
-          <p class="text-caption text-grey">Bonus Points:</p>
-          <p id="bonusPoints" class="text-h4 blue-6 font-weight-bold">0</p>
-        </div>
-        <div>
-          <p class="text-caption text-grey">Total Points:</p>
-          <p id="totalPoints" class="text-h4 blue-6 font-weight-bold">0</p>
-        </div>
       </q-card-section>
 
 
@@ -83,11 +91,16 @@ export default {
     const runtime = useRuntimeStore()
     const { 
       level, 
-      level_bonus_points,
+      level_stats,
       level_score,
     } = storeToRefs(runtime)
 
-    const is_ready = ref(false)
+    const {
+      bonus_points
+    } = level_stats.value
+
+    const total_points = level_score.value + bonus_points
+    const is_ready = ref(true)
     const oi = ['st', 'nd', 'rd', 'th']
     let getBase = 1;
 
@@ -108,22 +121,21 @@ export default {
     })
 
     onMounted(() => {
-      const total_points = level_score.value + level_bonus_points.value
-      const timeline = gsap.timeline({
-        pause: true,
-        duration: 3,
-        ease: "power4.out",
-        delay: 1,
-        onComplete: () => {
-          is_ready.value = true
-        }
-      })
+      // const timeline = gsap.timeline({
+      //   pause: true,
+      //   duration: 3,
+      //   ease: "power4.out",
+      //   delay: 1,
+      //   onComplete: () => {
+      //     is_ready.value = true
+      //   }
+      // })
 
-      timeline
-        .to("#bonusPoints", { innerText: level_bonus_points.value, snap: "innerText" })
-        .to("#totalPoints", { innerText: total_points, snap: "innerText" })
+      // timeline
+      //   .to("#bonusPoints", { innerText: level_bonus_points.value, snap: "innerText" })
+      //   .to("#totalPoints", { innerText: total_points, snap: "innerText" })
 
-      timeline.play();
+      // timeline.play();
     })
 
     return {
@@ -131,7 +143,9 @@ export default {
       nextLevel,
       is_ready,
       ordinalIndicator,
-      level_score
+      level_score,
+      bonus_points,
+      total_points,
     }
   }
 }
