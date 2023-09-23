@@ -20,14 +20,32 @@
           >
           </ScoreCard>
 
-          <ScoreCard 
-            :from_left="true"
-            class="mb-5"
-            label="Bonus Points"
-            color="teal-6"
-            :score="bonus_points"
-          >
-          </ScoreCard>
+          <div class="flex align-center">
+            <ScoreCard 
+              :from_left="true"
+              class="mb-5"
+              label="Bonus Points"
+              color="teal-6"
+              :score="bonus_points"
+            >
+            </ScoreCard>
+
+            <div class="bonuses ml-3">
+              <div class="bonus" style="background-color: #09B0F6;">
+                <p class="text-overline">
+                  <span>submission success: </span>
+                  <span>0</span>
+                </p>
+              </div>
+                <!-- 
+                  perfect execution, 
+                  no ignored words, 
+                  no wrong submissions, 
+                  extra power tiles 
+                  word streaks
+                -->
+            </div>
+          </div>
 
           <ScoreCard 
             class="mb-5"
@@ -38,15 +56,7 @@
           </ScoreCard>
         </div>
       
-          <!-- 
-            perfect execution, 
-            no ignored words, 
-            no wrong submissions, 
-            extra power tiles 
-            word streaks
-          -->
       </q-card-section>
-
 
       <q-card-actions align="center">
         <TButton 
@@ -111,6 +121,7 @@ export default {
       emit('start')
     }
 
+    // 1st, 2nd, 3rd
     const ordinalIndicator = computed(() => {
       getBase = level;
       if(level > 9) getBase.value = level % 10
@@ -152,8 +163,23 @@ export default {
 </script> 
 
 <style lang="scss" scoped>
-
 .start-card {
-  width: 350px;
+  width: 450px;
+}
+
+.text-overline {
+  letter-spacing: 0px;
+}
+
+.bonuses {
+  .bonus {
+    padding: 0px 5px;
+
+    p {
+      margin-bottom: 0px;
+      color: white;
+      line-height:  1.5rem;
+    }
+  }
 }
 </style>

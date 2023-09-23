@@ -1,10 +1,10 @@
 <template>
-  <div class="score-card">
+  <div :class="['score-card', { left: from_left }]">
     <div 
       :class="['label', `bg-${color}`]"
     >
       <p>{{ label }}</p>
-      <div :class="['triangle']"
+      <div :class="['triangle', { 'triangle-left':from_left }]"
         :style="{
           borderBottomColor: paletteColor
         }"
@@ -72,17 +72,23 @@ export default {
       }
 
       return ans
+    },
+    label_bbq() {
+      return this.label.toLowerCase().replaceAll(" ", "_")
     }
   },
   mounted() {
-    let counter = 0;
+    let name = this.label_bbq
+    let counter = { value: 0 };
+
     gsap.to(counter, {
       value: this.score,
+      roundProps: "value",
       duration: 1,
       ease: "power4.out",
       delay: 1,
       onUpdate: () => {
-        this._score++;
+        this._score = counter.value;
       }
     })
   }
@@ -91,6 +97,13 @@ export default {
 <style lang="scss" scoped>
 .score-card {
   width: 200px !important;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  &.left {
+    align-items: flex-end;
+  }
 
   p {
     margin-bottom: 0px;
@@ -115,6 +128,12 @@ export default {
       border-left: 0em solid;
       border-right: 2.5em solid transparent;
       border-bottom: 2em solid;
+
+      &-left {
+        left: -34px;
+        border-right: 0em solid;
+        border-left: 2.5em solid transparent;
+      }
     }
   }
 
