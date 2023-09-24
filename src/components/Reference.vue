@@ -17,6 +17,7 @@ import { useComponentsPageStore } from '/src/stores/ComponentsPageStore'
 import { useSkillsStore } from '@/stores/SkillsStore'
 import BrowserCard from "@/components/BrowserCard.vue";
 import gsap from 'gsap'
+import { getSetup } from '@/composables/setup.js'
 
 export default {
   name: "Reference",
@@ -37,6 +38,8 @@ export default {
     const drawer = ref(true)
     const drawer_toggled = ref(false)
 
+    const { setup, grabHundredWords } = getSetup()
+    
     const project = props.project
 
     console.log('lodash', _.find(skills_store.skills, { exp: '12'}))

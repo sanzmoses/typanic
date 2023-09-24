@@ -24,6 +24,14 @@ export function getSetup() {
       faster_tile: 20,
       double_speed: 10,
     },
+    level_stats_color: {
+      power_tile: "#FF5C01",
+      success: "#09B0F6",
+      ignored: "#00BE9C",
+      streak: "#DB01FF",
+      mistakes: "#F60059",
+      perfect: "#29CD00"
+    }
   })
 
   // 10,000 - 100,000 < - level 1

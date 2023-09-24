@@ -75,22 +75,30 @@ export default {
     },
     label_bbq() {
       return this.label.toLowerCase().replaceAll(" ", "_")
+    },
+  },
+  methods: {
+    runScore() {
+      let counter = { value: 0 };
+
+      gsap.to(counter, {
+        value: this.score,
+        roundProps: "value",
+        duration: 1,
+        ease: "power4.out",
+        onUpdate: () => {
+          this._score = counter.value;
+        }
+      })
+    }
+  },
+  watch: {
+    score: function() {
+      this.runScore()
     }
   },
   mounted() {
-    let name = this.label_bbq
-    let counter = { value: 0 };
-
-    gsap.to(counter, {
-      value: this.score,
-      roundProps: "value",
-      duration: 1,
-      ease: "power4.out",
-      delay: 1,
-      onUpdate: () => {
-        this._score = counter.value;
-      }
-    })
+    this.runScore();
   }
 }
 </script>
