@@ -7,7 +7,9 @@
           <div class="flex justify-center align-start column">
             <p id="level1" class="mb-0">{{ ordinalIndicator }}</p>
             <p id="level2" class="mb-0 text-white bg-teal-6" style="padding: 3px 4px 0px;">LVL</p>
-            <p id="level3" class="mb-0">Complete</p>
+            <div style="height: 21px;">
+              <p id="level3" class="mb-0">Complete</p>
+            </div>
           </div>
         </div>
 

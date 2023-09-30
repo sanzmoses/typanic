@@ -7,9 +7,9 @@ export const useRuntimeStore = defineStore('RuntimeStore', {
     slow_duration: 10, //seconds
     count: 500,
     score: 0,
-    hp: 100,
+    hp: 1,
     level: 1,
-    level_speed: 25, // 25 - 5
+    level_speed: 1, // 25 - 5
     level_score: 99, // to 100
     word_difficulty: {
       min: 10000, // 10000
@@ -134,7 +134,11 @@ export const useRuntimeStore = defineStore('RuntimeStore', {
         hp_deduction = -limit_deduction
       }
 
-      this.hp += hp_deduction
+      if((this.hp += hp_deduction) <= 0) {
+        this.hp = 0
+      } else {
+        this.hp += hp_deduction
+      }
       this.level_stats.ignored++
       this.level_stats.streak = 0
 
