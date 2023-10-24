@@ -22,7 +22,7 @@ export const useRuntimeStore = defineStore('RuntimeStore', {
     prepared_words: [],
     dropping_words: [],
     registered_word: "",
-    power_tiles: [],
+    power_tiles: [{name: 'ice'}],
     active_power_tile: [],
     overall: {
       power_tile: 0,
@@ -30,6 +30,7 @@ export const useRuntimeStore = defineStore('RuntimeStore', {
       ignored: 0,
       streak: 0,
       mistakes: 0,
+      words_per_min: 0,
     },
     set_on_fire: false,
     level_stats: {
@@ -207,6 +208,12 @@ export const useRuntimeStore = defineStore('RuntimeStore', {
     processPoints(point) {
       if(point === 'overall') {
         Object.keys(this.overall).forEach(key => {
+          if(key === "words_per_min") return
+          if(key === "streak") {
+            this.overall.streak = this.current_highest_streak
+            return
+          }
+
           this.overall[key] += this.level_stats[key]
         })
       }

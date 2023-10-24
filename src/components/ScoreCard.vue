@@ -1,10 +1,13 @@
 <template>
-  <div :class="['score-card', { left: from_left }]">
+  <div 
+    :class="['score-card', { left: left, full: full }]" 
+    :style="{ fontSize: fontSize }"
+  >
     <div 
-      :class="['label', `bg-${color}`]"
+      :class="['label', `bg-${color}`, { full: full }]"
     >
       <p>{{ label }}</p>
-      <div :class="['triangle', { 'triangle-left':from_left }]"
+      <div :class="['triangle', { 'triangle-left': left }]"
         :style="{
           borderBottomColor: paletteColor
         }"
@@ -46,16 +49,25 @@ export default {
       type: String,
       default: "bg-black"
     },
-    font_size: {
+    fontSize: {
       type: String,
       default: "1em"
     },
-    from_left: {
-      type: Boolean,
-      default: false
+    label_type: {
+      type: String,
+      default: 'right'
     }
   },  
   computed: {
+    left() {
+      return this.label_type === 'left'
+    },
+    right() {
+      return this.label_type === 'right'
+    },
+    full() {
+      return this.label_type === 'full'
+    },
     paletteColor() {
       const { getPaletteColor } = colors
       return getPaletteColor(this.color)
@@ -104,7 +116,6 @@ export default {
 </script>
 <style lang="scss" scoped>
 .score-card {
-  width: 200px !important;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -116,31 +127,41 @@ export default {
   p {
     margin-bottom: 0px;
   }
+
+  $square-length: 2.5em;
+  $square-height: 1.5em;
   .label {
     position: relative;
     padding: 0em 0.5em;
     display: inline-block;
-    height: 2em;
+    height: $square-height;
 
     p {
       color: white !important;
-      margin-top: 5px;
+      margin-top: 2px;
     }
 
     .triangle {
       position: absolute;
       top: 0;
-      right: -34px;
+      right: -$square-length;
       width: 0px;
       height: 0px;
       border-left: 0em solid;
-      border-right: 2.5em solid transparent;
-      border-bottom: 2em solid;
+      border-right: $square-length solid transparent;
+      border-bottom: $square-height solid;
 
       &-left {
-        left: -34px;
+        left: -$square-length;
         border-right: 0em solid;
-        border-left: 2.5em solid transparent;
+        border-left: $square-length solid transparent;
+      }
+    }
+
+    &.full {
+      width: 100%;
+      .triangle {
+        display: none;
       }
     }
   }

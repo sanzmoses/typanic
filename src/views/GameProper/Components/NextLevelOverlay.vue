@@ -27,7 +27,7 @@
 
           <div id="score2" class="flex items-center justify-center">
             <ScoreCard 
-              :from_left="true"
+              :label_type="'left'"
               class="mb-5"
               label="Bonus Points"
               color="teal-6"
@@ -135,7 +135,7 @@ export default {
         bonuses.value.push({
           name: key,
           value: level_stats.value[key],
-          color: level_stats_color[key]
+          color: level_stats_color[key].code
         })
       })
 
@@ -143,7 +143,7 @@ export default {
         bonuses.value.push({
           name: 'perfect execution!',
           value: null,
-          color: level_stats_color.perfect
+          color: level_stats_color.perfect.code
         })
       }
     }

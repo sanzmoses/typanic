@@ -25,12 +25,34 @@ export function getSetup() {
       double_speed: 10,
     },
     level_stats_color: {
-      power_tile: "#FF5C01",
-      success: "#09B0F6",
-      ignored: "#00BE9C",
-      streak: "#DB01FF",
-      mistakes: "#F60059",
-      perfect: "#29CD00"
+      power_tile: {
+        code: "#FF5C01",
+        name: "green-6"
+      },
+      success: {
+        code: "#09B0F6",
+        name: "blue-7"
+      },
+      ignored: {
+        code: "#00BE9C",
+        name: "amber-9"
+      },
+      streak: {
+        code: "#DB01FF",
+        name: "purple-8"
+      },
+      mistakes: {
+        code: "#F60059",
+        name: "pink-9"
+      },
+      perfect: {
+        code: "#29CD00",
+        name: "light-green-8"
+      },
+      words_per_min: {
+        code: "#FF5C01",
+        name: "orange-10"
+      }
     }
   })
 
