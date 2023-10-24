@@ -41,7 +41,8 @@ export const useRuntimeStore = defineStore('RuntimeStore', {
       mistakes: 0,
       bonus_points: 0,
     },
-    current_highest_streak: 0,
+    overall_highest_streak: 0,
+    current_streak: 0
   }),
   getters: {
     is_power_ice_active() {
@@ -121,10 +122,10 @@ export const useRuntimeStore = defineStore('RuntimeStore', {
       }
 
       this.level_stats.success++
-      this.level_stats.streak++
+      this.current_streak++
 
-      if(this.level_stats.streak > this.current_highest_streak) {
-        this.current_highest_streak = this.level_stats.streak
+      if(this.current_streak > this.overall_highest_streak) {
+        this.overall_highest_streak = this.current_streak
       }
     },
     missedWord(word) {
@@ -141,7 +142,7 @@ export const useRuntimeStore = defineStore('RuntimeStore', {
         this.hp += hp_deduction
       }
       this.level_stats.ignored++
-      this.level_stats.streak = 0
+      this.current_streak = 0
 
       if(this.hp <= 0) {
         this.setOnFire()
@@ -210,7 +211,7 @@ export const useRuntimeStore = defineStore('RuntimeStore', {
         Object.keys(this.overall).forEach(key => {
           if(key === "words_per_min") return
           if(key === "streak") {
-            this.overall.streak = this.current_highest_streak
+            this.overall.streak = this.overall_highest_streak
             return
           }
 
@@ -219,6 +220,8 @@ export const useRuntimeStore = defineStore('RuntimeStore', {
       }
 
       if(point === 'bonus') {
+        this.level_stats.streak = this.overall_highest_streak
+
         if(this.level_stats.success >= 0) {
           this.level_stats.bonus_points 
           += (this.level_stats.success + this.level) 
