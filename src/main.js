@@ -31,11 +31,11 @@ gsap.registerPlugin(ScrollTrigger);
 
 createApp(App)
   .use(router)
-  .use(createPinia())
   .use(Quasar, {
     plugins: { }, 
   })
   .use(hljsVuePlugin)
+  .use(createPinia())
   .mount('#app')
 
 Dark.set(true)

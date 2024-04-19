@@ -7,10 +7,10 @@ export const useRuntimeStore = defineStore('RuntimeStore', {
     slow_duration: 10, //seconds
     count: 500,
     score: 0,
-    hp: 1,
+    hp: 100, // 100 - 0
     level: 1,
-    level_speed: 1, // 25 - 5
-    level_score: 99, // to 100
+    level_speed: 25, // 25 - 5
+    level_score: 0, // to 100
     word_difficulty: {
       min: 10000, // 10000
       max: 50000 // 274000
@@ -22,7 +22,12 @@ export const useRuntimeStore = defineStore('RuntimeStore', {
     prepared_words: [],
     dropping_words: [],
     registered_word: "",
-    power_tiles: [{name: 'ice'}],
+    power_tiles: [
+      { name: "ice" },
+      { name: "fire" },
+      { name: "slow" },
+      { name: "heal" },
+    ],
     active_power_tile: [],
     overall: {
       power_tile: 0,
@@ -30,7 +35,6 @@ export const useRuntimeStore = defineStore('RuntimeStore', {
       ignored: 0,
       streak: 0,
       mistakes: 0,
-      words_per_min: 0,
     },
     set_on_fire: false,
     level_stats: {
