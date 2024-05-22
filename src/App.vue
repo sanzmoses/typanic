@@ -13,20 +13,21 @@
       </router-view>
     </div>
     
+    <PlayerNameDialog />
   </div>
 </template>
 
 <script>
 import Header from './components/Header.vue'
+import PlayerNameDialog from "./components/PlayerNameDialog.vue"
 
 export default {
   name: 'App',
   components: {
-    Header
+    PlayerNameDialog
   },
-  data: () => ({
-    //
-  }),
+  setup() {
+  }
 }
 </script>
 

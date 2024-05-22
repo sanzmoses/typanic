@@ -1,6 +1,6 @@
 {
-  "name": "portfolio-v2",
-  "version": "0.0.0",
+  "name": "typanic",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "serve": "vite preview",
@@ -12,6 +12,7 @@
     "@highlightjs/vue-plugin": "^2.1.0",
     "@mdi/font": "5.9.55",
     "@quasar/extras": "^1.15.5",
+    "@vueuse/core": "^10.9.0",
     "animate.css": "^4.1.1",
     "gsap": "^3.11.3",
     "highlight.js": "^11.6.0",

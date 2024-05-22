@@ -1,10 +1,24 @@
 <template>
   <div class="game-proper">
     <div>
+      <div class="column justify-center items-center">
+        <h4 class="ma-0">Typanic</h4>
+        <p class="row">
+          <span class="inline-block mr-2">By</span> 
+          <!-- <a class="portfolio-link" href="http://sanzmoses.net" target="_blank">Sanzmoses</a> -->
+          <a target="_blank" href="http://sanzmoses.net" 
+            class="link-name text-accent">
+            Sanzmoses
+            <q-icon color="accent" name="call_made" />      
+            <span class="underline"></span>    
+          </a>
+        </p>
+      </div>
+
       <div class="flex justify-between items-end pb-1"> 
         <div>
-          <h4 class="ma-0">Typanic</h4>
-          <p class="ma-0">By <a class="portfolio-link" href="http://sanz.ml" target="_blank">Sanz</a></p>
+          <p class="mb-1">player:</p>
+          <p class="mb-1 mt-0 text-h6">{{ player_name }}</p>
         </div>
         <div>
           <OverallScore />
@@ -97,10 +111,12 @@ import NextLevelOverlay from "./Components/NextLevelOverlay.vue"
 import { getSetup } from '@/composables/setup.js'
 
 import { useRuntimeStore } from '@/stores/RuntimeStore'
+import { useUserStore } from '@/stores/UserStore'
 import { storeToRefs } from 'pinia'
 
 import { ref, onMounted } from 'vue'
 import _ from 'lodash'
+import gsap from 'gsap'
 
 export default {
   name: 'GameProper',
@@ -118,6 +134,11 @@ export default {
     const { setup, grabHundredWords } = getSetup()
     const word_display = ref([])
 
+    const user = useUserStore()
+    const { 
+      player_name
+    } = storeToRefs(user)
+
     const runtime = useRuntimeStore()
     const { 
       dropping_words, 
@@ -125,18 +146,26 @@ export default {
       is_level_complete,
       is_game_over,
     } = storeToRefs(runtime)
-
+    
     const input_string = ref('')
     const inputField = ref(null)
     const start = ref(false)
     const counter = ref(3)
     const counting = ref(false)
 
-  
     onMounted(() => {
       // setTimeout(() => {
       //   addWords();
       // }, 1000)
+
+      gsap.fromTo(".underline", {
+        x: -150,
+      }, {
+        x: 150,
+        duration: 1.5,
+        ease: 'Power.easeOut',
+        repeat: -1
+      })
     })
 
     const startGame = (state) => {
@@ -226,7 +255,8 @@ export default {
       counting,
       inputField,
       is_game_over,
-      is_level_complete
+      is_level_complete,
+      player_name
     }
   }
 }
@@ -289,5 +319,21 @@ export default {
   text-decoration: none;
 }
 
+.link-name {
+  z-index: 10;
+  cursor: pointer;
+  text-decoration: none;
+  overflow: hidden;
+  position: relative;
+  display: inline-block;
 
+  .underline {
+    border-bottom: 1px dashed rgb(0, 81, 255);
+    display: inline-block;
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+  }
+}
 </style>
