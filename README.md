@@ -29,3 +29,5 @@ Hall of fame
 - top scorers, overall points and level reached, average word per minute
 
 Updates:
+- Adjust layout and links
+- Add player name feature
