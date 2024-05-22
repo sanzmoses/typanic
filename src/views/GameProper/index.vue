@@ -273,6 +273,7 @@ export default {
   width: 100%;
   display: flex;
   justify-content: center;
+  padding-left: 150px;
 }
 
 .game-box {

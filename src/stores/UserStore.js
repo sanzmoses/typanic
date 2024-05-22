@@ -3,7 +3,7 @@ import _ from 'lodash'
 
 export const useUserStore = defineStore('UserStore', {
   state: () => ({
-    player_name: "TypingManiac"
+    player_name: "Player 1"
   }),
   getters: { 
     sample_getter() {

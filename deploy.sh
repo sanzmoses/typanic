@@ -23,6 +23,6 @@ git diff-index --quiet HEAD || git commit -m 'deploy'
 # git push -f git@github.com:sanzmoses/<USERNAME>.github.io.git main
 
 # if you are deploying to https://<USERNAME>.github.io/<REPO>
-git push origin prod
+git push -f https://github.com/sanzmoses/typanic.git prod
 
 cd -
