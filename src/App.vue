@@ -15,9 +15,31 @@
     
     <PlayerNameDialog />
 
-    <SeamlessNav class="fix center-left" :label="'How to play'" />
-    <SeamlessNav class="fix upper-right" :label="'Hall of fame'" />
-    <SeamlessNav class="fix upper-left" :label="'About the game'" />
+    <SeamlessNav 
+      class="fix center-left"  
+      position="left"
+      label="How to play" 
+      card-title="Instructions"
+      bg-color="warning"
+    >
+     
+    </SeamlessNav>
+
+    <SeamlessNav 
+      class="fix upper-right"  
+      position="right"
+      label="Hall of fame" 
+      card-title="Top players"
+      bg-color="positive"
+    />
+
+    <SeamlessNav 
+      class="fix upper-left"  
+      position="left"
+      label="About the game" 
+      card-title="About"
+      
+    />
   </div>
 </template>
 
@@ -43,7 +65,7 @@ body {
 }
 
 .fix {
-  position: absolute;
+  position: fixed;
   top: 0;
 
   &.center-left {

@@ -1,32 +1,35 @@
 <template>
   <div class="q-pa-md q-gutter-sm">
     <q-dialog v-model="show" persistent transition-show="scale" transition-hide="scale">
-      <q-card class="bg-teal text-white" style="width: 300px">
+      <q-card class="bg-teal text-white" style="width: 300px" square>
         <q-card-section>
           <div class="text-caption">Enter your name to continue</div>
         </q-card-section>
 
         <q-card-section class="q-pt-none">
           <q-input 
+            @keyup.enter="submit"
             v-model="name" 
+            :hint="hint"
             maxlength="12"
             label="Name" 
             ref="input"
-            :hint="hint"
             standout 
             counter 
+            square
           />
           
         </q-card-section>
 
-        <q-card-actions align="right" class="text-teal">
+        <q-card-actions align="right" class="text-teal q-pa-md">
           <q-btn 
-            class="full-width text-bold" 
-            icon-right="rocket_launch"
+            @click="submit"
+            class="full-width text-bold submit-btn" 
+            icon-right="keyboard"
             text-color="teal" 
             label="submit" 
             color="white" 
-            @click="submit"
+            square
           />
         </q-card-actions>
       </q-card>
@@ -71,3 +74,11 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+.submit-btn {
+  span {
+    margin-top: 2px;
+  }
+}
+</style>

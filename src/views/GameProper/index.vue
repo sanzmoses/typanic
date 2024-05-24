@@ -6,11 +6,12 @@
         <p class="row">
           <span class="inline-block mr-2">By</span> 
           <!-- <a class="portfolio-link" href="http://sanzmoses.net" target="_blank">Sanzmoses</a> -->
-          <a target="_blank" href="http://sanzmoses.net" 
+          <a target="_blank" 
+            href="http://sanzmoses.net" 
             class="link-name text-accent">
-            Sanzmoses
-            <q-icon color="accent" name="call_made" />      
-            <span class="underline"></span>    
+              Sanzmoses
+              <q-icon color="accent" name="call_made" />      
+              <span class="underline"></span>    
           </a>
         </p>
       </div>
@@ -273,7 +274,7 @@ export default {
   width: 100%;
   display: flex;
   justify-content: center;
-  padding-left: 150px;
+  padding-left: 200px;
 }
 
 .game-box {

@@ -3,30 +3,38 @@
     <q-btn 
       @click="seamless = !seammless" 
       :label="label"
+      class="text-lowercase"
       text-color="white" 
       color="primary"
-      class="text-lowercase"
+      square
       flat
     />
 
     <q-dialog 
       v-model="seamless" 
-      position="left"
+      :position="position"
       seamless 
+      square
     >
-      <q-card style="width: 350px">
+      <q-card dark style="width: 400px" :class="`bg-${bgColor}`">
         <q-linear-progress :value="progress" color="primary" />
 
         <q-card-section class="row items-center no-wrap">
-          <div>
-            <h5 class="q-ma-none">How to play</h5>
-          </div>
-
+          <h6 :class="[`q-ma-none text-bold ${dark ? 'text-black':''}`]">{{ cardTitle }}</h6>
           <q-space />
-          <q-btn flat round icon="close" v-close-popup />
+          <q-btn 
+            :color="dark ? 'black': 'white'" 
+            v-close-popup  
+            round 
+            flat
+            size="md" 
+            icon="close" 
+          />
         </q-card-section>
 
         <q-card-section class="q-px-lg q-pt-none q-pb-lg">
+          <slot>
+          </slot>
         </q-card-section>
       </q-card>
     </q-dialog>
@@ -41,18 +49,34 @@ export default {
   props: {
     label: {
       type: String
+    },
+    position: {
+      type: String,
+    },
+    cardTitle: {
+      type: String,
+    },
+    bgColor: {
+      type: String,
+      default: "accent"
     }
   },
-  setup () {
-
+  setup (props) {
     const progress = ref(0)
-    watchEffect(async () => {
-      
-    })
+    const dark = ref(false)
+    const bg = props.bgColor
+    const text_black = ["positive", "warning"]
+
+    dark.value = text_black.includes(bg)
+
+    console.log("test ", bg, dark.value)
+
+    watchEffect(async () => {})
 
     return {
       seamless: ref(false),
-      progress
+      progress,
+      dark
     }
   },
 }
