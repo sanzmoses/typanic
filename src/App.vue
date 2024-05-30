@@ -21,8 +21,9 @@
       label="How to play" 
       card-title="Instructions"
       bg-color="warning"
+      width="500px"
     >
-     
+     <Instructions />
     </SeamlessNav>
 
     <SeamlessNav 
@@ -31,27 +32,38 @@
       label="Hall of fame" 
       card-title="Top players"
       bg-color="positive"
-    />
+      width="600px"
+    >
+      <HallOfFame />
+    </SeamlessNav>
 
     <SeamlessNav 
       class="fix upper-left"  
-      position="left"
+      position="top"
       label="About the game" 
       card-title="About"
-      
-    />
+      width="500px"
+    >
+      <About />
+    </SeamlessNav>
   </div>
 </template>
 
 <script>
 import PlayerNameDialog from "./components/PlayerNameDialog.vue"
 import SeamlessNav from "./components/SeamlessNav.vue"
+import Instructions from "./components/SeamlessContent/Instructions.vue"
+import About from "./components/SeamlessContent/About.vue"
+import HallOfFame from "./components/SeamlessContent/HallOfFame.vue"
 
 export default {
   name: 'App',
   components: {
     PlayerNameDialog,
-    SeamlessNav
+    SeamlessNav,
+    Instructions,
+    About,
+    HallOfFame,
   },
   setup() { }
 }

@@ -1,7 +1,7 @@
 <template>
   <div>
     <q-btn 
-      @click="seamless = !seammless" 
+      @click="toggle" 
       :label="label"
       class="text-lowercase"
       text-color="white" 
@@ -16,10 +16,10 @@
       seamless 
       square
     >
-      <q-card dark style="width: 400px" :class="`bg-${bgColor}`">
+      <q-card dark :style="{ width }" :class="`bg-${bgColor}`">
         <q-linear-progress :value="progress" color="primary" />
 
-        <q-card-section class="row items-center no-wrap">
+        <q-card-section class="row items-center no-wrap q-px-lg q-pb-lg">
           <h6 :class="[`q-ma-none text-bold ${dark ? 'text-black':''}`]">{{ cardTitle }}</h6>
           <q-space />
           <q-btn 
@@ -59,6 +59,10 @@ export default {
     bgColor: {
       type: String,
       default: "accent"
+    },
+    width: {
+      type: String,
+      default: "400px"
     }
   },
   setup (props) {
@@ -66,6 +70,7 @@ export default {
     const dark = ref(false)
     const bg = props.bgColor
     const text_black = ["positive", "warning"]
+    const seamless = ref(false)
 
     dark.value = text_black.includes(bg)
 
@@ -73,8 +78,13 @@ export default {
 
     watchEffect(async () => {})
 
+    const toggle = () => {
+      seamless.value = !seamless.value
+    }
+
     return {
-      seamless: ref(false),
+      seamless,
+      toggle,
       progress,
       dark
     }

@@ -7,27 +7,31 @@
 /** Global Definite **/
 /* width */
 ::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
+  width: 5px !important;
+  height: 5px !important;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: $dark; 
-  border-radius: 10px;
+  background: $dark !important; 
+  border-radius: 10px !important;
 }
- 
+
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: $accent; 
-  border-radius: 10px;
+  background: $accent !important; 
+  border-radius: 10px !important;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: $primary; 
+  background: $primary !important; 
 }
 /** End of Global Definite **/
+
+body {
+  scrollbar-color: auto !important;
+}
 
 /** Overide **/
 code {

@@ -6,14 +6,14 @@ This template should help get you started developing with Vue 3 in Vite. The tem
 
 - [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
 
-json-server --watch data/db.json
-
 npm run dev or dev
 
 vue ui --dev
 
+
 To do:
-Point System
+
+Point System:
 - per level pit stop center overlay
 - score/deduction according to word difficulty
 - score cap or tile count for every level
@@ -21,10 +21,12 @@ Point System
 - a constant raise of difficulty for levels for unlimited levels
 - per level and whole game summary stats of points/scores
 - track words per minute including usage of powers
-Gameover
+
+Gameover:
 - game over stats
 - game over center overlay 
-Hall of fame
+
+Hall of fame:
 - just get name input
 - top scorers, overall points and level reached, average word per minute
 
