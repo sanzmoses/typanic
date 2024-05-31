@@ -19,9 +19,9 @@
       class="fix center-left"  
       position="left"
       label="How to play" 
-      card-title="Instructions"
+      card-title="HOW TO PLAY"
       bg-color="warning"
-      width="500px"
+      width="600px"
     >
      <Instructions />
     </SeamlessNav>
@@ -30,8 +30,8 @@
       class="fix upper-right"  
       position="right"
       label="Hall of fame" 
-      card-title="Top players"
-      bg-color="positive"
+      card-title="HALL OF SHAME"
+      bg-color="green-14"
       width="600px"
     >
       <HallOfFame />
@@ -41,7 +41,8 @@
       class="fix upper-left"  
       position="top"
       label="About the game" 
-      card-title="About"
+      bg-color="blue-6"
+      card-title="ABOUT THE GAME"
       width="500px"
     >
       <About />

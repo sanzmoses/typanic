@@ -7,7 +7,7 @@
       src="@/assets/typing-maniac.png"
     />
     
-    <p class="text-justify">Copied almost all the fun features such as power tiles ”Ice”, “Fire” and “Slow” except with a minor change in name but the same function which was “Wind” in Typing Maniac, which I called “Heal” that recovers 50 points of lost HP from ignored tiles.</p>
+    <p class="text-justify text-body2">Copied almost all the fun features such as power tiles ”Ice”, “Fire” and “Slow” except with a minor change in name but the same function which was “Wind” in Typing Maniac, which I called “Heal” that recovers 50 points of lost HP from ignored tiles.</p>
 
     <template v-for="logo in logos" :key="logo+'-logo'">
       <q-chip 
@@ -61,10 +61,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+$color: black;
 .bordered {
-  border: 3px solid white;
-  border-right: 5px solid white;
-  border-left: 5px solid white;
+  border: 4px solid $color;
+  border-right: 5px solid $color;
+  border-left: 5px solid $color;
   margin-bottom: 10px;
 }
 </style>

@@ -166,3 +166,37 @@ blockquote {
     margin-top: .3rem !important;
   }
 }
+
+.power-tile {
+  width: 60px;
+  height: 30px;
+  padding: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+
+  p {
+    font-size: 14px;
+    height: 17px; 
+  }
+
+  &.ice {
+    background-color: #379FFF;
+    border: 1px solid #00D1FF;
+  }
+
+  &.fire {
+    background-color: #F00;
+    border: 1px solid #FF8A00;
+  }
+
+  &.slow {
+    background-color: #C0F;
+    border: 1px solid #E789FF;
+  }
+
+  &.heal {
+    background-color: #00D06C;
+    border: 1px solid #00FF85;
+  }
+}

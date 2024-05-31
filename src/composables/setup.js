@@ -7,10 +7,10 @@ export function getSetup() {
   const runtime = useRuntimeStore()
 
   const power_tiles = [
-    { name: 'slow', color: 'purple-8', icon: 'hourglass_empty' },
-    { name: 'ice', color: 'blue-9', icon: 'ac_unit' },
-    { name: 'fire', color: 'red-10', icon: 'whatshot' },
-    { name: 'heal', color: 'green-14', icon: 'health_and_safety' },
+    { name: 'ice', description: "Freezes the dropping tiles" },
+    { name: 'fire', description: "Burns all dropping tiles" },
+    { name: 'slow', description: "Slows dropping tiles" },
+    { name: 'heal', description: "Heal HP" },
   ]
 
   const setup = ref({
@@ -95,11 +95,16 @@ export function getSetup() {
     return grabPercent(setup.value.chances.double_speed)
   }
 
+  const getPowerTiles = () => {
+    return power_tiles
+  }
+
   return {
     setup,
     grabHundredWords,
     grabPowerTile,
     isDoubleSpeed,
-    isRelativelyFaster
+    isRelativelyFaster,
+    power_tiles
   }
 }

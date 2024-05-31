@@ -74,8 +74,6 @@ export default {
 
     dark.value = text_black.includes(bg)
 
-    console.log("test ", bg, dark.value)
-
     watchEffect(async () => {})
 
     const toggle = () => {
