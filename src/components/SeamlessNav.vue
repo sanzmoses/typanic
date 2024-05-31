@@ -19,16 +19,16 @@
       <q-card dark :style="{ width }" :class="`bg-${bgColor}`">
         <q-linear-progress :value="progress" color="primary" />
 
-        <q-card-section class="row items-center no-wrap q-px-lg q-pb-lg">
-          <h6 :class="[`q-ma-none text-bold ${dark ? 'text-black':''}`]">{{ cardTitle }}</h6>
+        <q-card-section class="row items-center no-wrap q-px-lg q-pb-sm">
+          <h6 :class="[`q-ma-none ${dark ? 'text-black':''}`]">{{ cardTitle }}</h6>
           <q-space />
           <q-btn 
             :color="dark ? 'black': 'white'" 
+            icon="close" 
+            size="md" 
             v-close-popup  
             round 
             flat
-            size="md" 
-            icon="close" 
           />
         </q-card-section>
 
@@ -58,7 +58,6 @@ export default {
     },
     bgColor: {
       type: String,
-      default: "accent"
     },
     width: {
       type: String,
@@ -69,7 +68,7 @@ export default {
     const progress = ref(0)
     const dark = ref(false)
     const bg = props.bgColor
-    const text_black = ["positive", "warning"]
+    const text_black = ["orange-4", "white"]
     const seamless = ref(false)
 
     dark.value = text_black.includes(bg)

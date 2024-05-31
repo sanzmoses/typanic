@@ -20,7 +20,7 @@
       position="left"
       label="How to play" 
       card-title="HOW TO PLAY"
-      bg-color="warning"
+      bg-color="orange-4"
       width="600px"
     >
      <Instructions />
@@ -31,7 +31,7 @@
       position="right"
       label="Hall of fame" 
       card-title="HALL OF SHAME"
-      bg-color="green-14"
+      bg-color="green-6"
       width="600px"
     >
       <HallOfFame />
@@ -41,7 +41,7 @@
       class="fix upper-left"  
       position="top"
       label="About the game" 
-      bg-color="blue-6"
+      bg-color="white"
       card-title="ABOUT THE GAME"
       width="500px"
     >
