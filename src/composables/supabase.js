@@ -2,7 +2,7 @@ import { supabase } from '@/lib/supabaseClient'
 import { ref, onMounted } from 'vue'
 import { useUserStore } from '@/stores/UserStore'
 import { useRuntimeStore } from '@/stores/RuntimeStore'
-import * as dayjs from 'dayjs'
+import dayjs from 'dayjs/esm/index.js'
 
 export function init() {
   const table = "typanic"

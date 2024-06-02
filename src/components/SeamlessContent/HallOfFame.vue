@@ -45,7 +45,7 @@
 <script>
 import { useRuntimeStore } from '@/stores/RuntimeStore'
 import { ref, onMounted, computed } from 'vue'
-import * as dayjs from 'dayjs'
+import dayjs from 'dayjs/esm/index.js'
 import { init } from '@/composables/supabase.js'
 import { useUserStore } from '@/stores/UserStore'
 
@@ -65,7 +65,7 @@ export default {
     }
 
     const columns = [
-    {
+      {
         name: 'date',
         required: true,
         label: 'Date',
