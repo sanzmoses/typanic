@@ -59,6 +59,7 @@ import { ref, onMounted, onBeforeMount, computed  } from 'vue'
 import gsap from 'gsap'
 import TButton from "@/components/TButton.vue"
 import ScoreCard from "@/components/ScoreCard.vue"
+import { init } from '@/composables/supabase.js'
 
 export default {
   name: 'GameOverOverlay',
@@ -79,6 +80,8 @@ export default {
 
     const show = ref(true)
 
+    const { insertOrUpdateUserScore } = init()
+
     const mapScores = () => {
       Object.keys(overall.value).forEach(key => {
         scores.value.push({
@@ -95,6 +98,7 @@ export default {
 
     onMounted(() => {
       mapScores();
+      insertOrUpdateUserScore()
     })
 
     return {

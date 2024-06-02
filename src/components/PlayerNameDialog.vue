@@ -40,6 +40,7 @@
 <script>
 import { ref, onMounted } from 'vue'
 import { useUserStore } from '@/stores/UserStore'
+import { init } from '@/composables/supabase.js'
 
 export default {
   setup () {
@@ -49,6 +50,7 @@ export default {
     const hint = ref("")
 
     const user = useUserStore()
+    const { checkIfUserExists } = init()
 
     const submit = () => {
       if(name.value.length < 2 || name.value > 12) {
@@ -56,8 +58,10 @@ export default {
         return;
       }
 
-      user.setUserName(name.value)
+      user.SET_USERNAME(name.value)
       show.value = false;
+
+      const check = checkIfUserExists(name.value)
     }
 
     onMounted(() => {
