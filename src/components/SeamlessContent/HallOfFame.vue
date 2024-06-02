@@ -1,5 +1,5 @@
 <template>
-  <div class="fame-hall bg-red-9">
+  <div class="fame-hall bg-pink-10">
     <div class="flex align-center justify-between px-3 py-2">
       <div class="flex text-white align-center justify-start">
         <p style="min-width: 170px;" class="text-h6 ma-0 mt-1 mr-2">HALL OF {{ proper_title }}</p>
@@ -9,7 +9,6 @@
           :icon="switch_sort ? 'arrow_downward': 'arrow_upward'" 
           color="white" 
           size="sm" 
-          round
           flat
         />
       </div>
@@ -28,15 +27,17 @@
     </div>
 
     <q-table
-      dark
       ref="table"
-      class="bg-red-9"
+      class="bg-pink-8 rounded-0"
       row-key="name"
       :rows="users_scores"
       :columns="columns"
       :separator="separator"
       :rows-per-page-options="[10,20,50,100]"
-      column-sort-order="ad"
+      column-sort-order="da"
+      binary-state-sort
+      dark
+      flat
     />
   </div>
 </template>
@@ -71,7 +72,7 @@ export default {
         align: 'left',
         field: row => row.created_at,
         format: val => dayjs(new Date(val)).format('MMM D YY'),
-        style: 'width: 150px',
+        style: 'width: 110px',
       },
       {
         name: 'name',
@@ -81,7 +82,13 @@ export default {
         field: row => row.name,
         format: val => `${val}`,
       },
-      { name: 'score', align: 'center', label: 'Score', field: 'score', },
+      { 
+        name: 'score', 
+        align: 'center', 
+        label: 'Score', 
+        field: 'score', 
+      },
+      { name: 'level', align: 'center', label: 'Level', field: 'level', },
     ]
 
     const pagination = {
@@ -92,7 +99,9 @@ export default {
       // rowsNumber: xx if getting data from a server
     }
 
-    onMounted(() => {})
+    onMounted(() => {
+      table.value.sort("score")
+    })
 
     return {
       separator: ref('horizontal'),
@@ -102,7 +111,7 @@ export default {
       pagination,
       users_scores,
       switchSort,
-      table
+      table,
     }
   }
 }

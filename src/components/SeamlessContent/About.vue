@@ -1,5 +1,5 @@
 <template>
-  <div class="about-game text-white pa-3 bg-blue">
+  <div class="about-game text-white pa-3 bg-indigo-9">
   
     <div class="flex align-center mb-5">
       <div>
@@ -8,7 +8,7 @@
       <q-space />
       <div>
         <q-btn 
-          color="black" 
+          color="white" 
           icon="close" 
           size="sm" 
           v-close-popup  
