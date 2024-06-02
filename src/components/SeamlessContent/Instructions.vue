@@ -1,19 +1,40 @@
 <template>
   <div class="instructions">
-    <div class="pr-2">
+    <div class="bg-orange-4">
       <q-list 
         bordered 
         separator 
         class="border-teal"
         style="border-color: black;"
       >
+
         <q-item 
-          :active="section === 1"
-          @click="section = 1"
+          class="section"
+        >
+          <q-item-section>
+            <div class="flex align-center">
+              <div class="text-black">
+                <p class="text-h6 text-black ma-0">HOW TO PLAY</p>
+                <p class="text-caption mb-0">Click on panels to highlight sections</p>
+              </div>
+              <q-space />
+              <div>
+                <q-btn 
+                  color="black" 
+                  icon="close" 
+                  size="sm" 
+                  v-close-popup  
+                  round 
+                  flat
+                />
+              </div>
+            </div>
+          </q-item-section>
+        </q-item>
+
+        <q-item 
           active-class="section--highlight" 
           class="section"
-          clickable 
-          v-ripple
         >
           <q-item-section>
             <q-item-label class="section--label mb-2">

@@ -12,6 +12,7 @@
     "@highlightjs/vue-plugin": "^2.1.0",
     "@mdi/font": "5.9.55",
     "@quasar/extras": "^1.15.5",
+    "@supabase/supabase-js": "^2.43.4",
     "@vueuse/core": "^10.9.0",
     "animate.css": "^4.1.1",
     "dayjs": "^1.11.11",

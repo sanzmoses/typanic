@@ -1,5 +1,23 @@
 <template>
-  <div class="about-game px-1 text-black">
+  <div class="about-game text-black pa-3 bg-white">
+  
+    <div class="flex align-center mb-5">
+      <div class="text-black">
+        <p class="text-h6 text-black ma-0">ABOUT THE GAME</p>
+      </div>
+      <q-space />
+      <div>
+        <q-btn 
+          color="black" 
+          icon="close" 
+          size="sm" 
+          v-close-popup  
+          round 
+          flat
+        />
+      </div>
+    </div>
+    
     <p>Inspired by Typing Maniac Game by MindJolt</p>
 
     <q-img
@@ -13,13 +31,14 @@
     <template v-for="logo in logos" :key="logo+'-logo'">
       <q-chip 
         square 
-        color="white" 
+        outline
+        color="black"
         class="text-black pr-1 pl-2 rounded-0"
       >
         <q-avatar size="xs">
           <img :src="getImageUrl(logo)">
         </q-avatar>
-        {{ logo }}
+        <span class="text-body2">{{ logo }}</span>
       </q-chip>
     </template>
     

@@ -19,8 +19,6 @@
       class="fix center-left"  
       position="left"
       label="How to play" 
-      card-title="HOW TO PLAY"
-      bg-color="orange-4"
       width="600px"
     >
      <Instructions />
@@ -30,8 +28,6 @@
       class="fix upper-right"  
       position="right"
       label="Hall of fame" 
-      card-title="HALL OF SHAME"
-      bg-color="green-6"
       width="600px"
     >
       <HallOfFame />
@@ -41,8 +37,6 @@
       class="fix upper-left"  
       position="top"
       label="About the game" 
-      bg-color="white"
-      card-title="ABOUT THE GAME"
       width="500px"
     >
       <About />
@@ -56,6 +50,8 @@ import SeamlessNav from "./components/SeamlessNav.vue"
 import Instructions from "./components/SeamlessContent/Instructions.vue"
 import About from "./components/SeamlessContent/About.vue"
 import HallOfFame from "./components/SeamlessContent/HallOfFame.vue"
+import { init } from '@/composables/supabase.js'
+import { onMounted } from "vue"
 
 export default {
   name: 'App',
@@ -66,7 +62,13 @@ export default {
     About,
     HallOfFame,
   },
-  setup() { }
+  setup() {
+    const { getUserScores } = init()
+
+    onMounted(() => {
+      getUserScores()
+    })
+  }
 }
 </script>
 
