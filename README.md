@@ -22,6 +22,7 @@ Gameover:
 
 Hall of fame:
 - level reached, average word per minute
+- updated_at on created_at
 
 Music:
 - Add quasar music seamless for playing and pausing
