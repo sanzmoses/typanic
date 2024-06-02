@@ -1,9 +1,9 @@
 <template>
-  <div class="about-game text-black pa-3 bg-white">
+  <div class="about-game text-white pa-3 bg-blue">
   
     <div class="flex align-center mb-5">
-      <div class="text-black">
-        <p class="text-h6 text-black ma-0">ABOUT THE GAME</p>
+      <div>
+        <p class="text-h6 ma-0">ABOUT THE GAME</p>
       </div>
       <q-space />
       <div>
@@ -31,8 +31,7 @@
     <template v-for="logo in logos" :key="logo+'-logo'">
       <q-chip 
         square 
-        outline
-        color="black"
+        color="white"
         class="text-black pr-1 pl-2 rounded-0"
       >
         <q-avatar size="xs">

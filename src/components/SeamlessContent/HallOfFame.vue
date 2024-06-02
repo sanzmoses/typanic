@@ -1,21 +1,22 @@
 <template>
   <div class="fame-hall bg-red-9">
-    <div class="flex align-center px-3 py-2">
-      <div class="flex text-white">
-        <p class="text-h6 ma-0 mt-1 mr-2">HALL OF {{ proper_title }}</p>
+    <div class="flex align-center justify-between px-3 py-2">
+      <div class="flex text-white align-center justify-start">
+        <p style="min-width: 170px;" class="text-h6 ma-0 mt-1 mr-2">HALL OF {{ proper_title }}</p>
 
         <q-btn 
-          @click="switch_sort = !switch_sort"
+          @click="switchSort"
+          :icon="switch_sort ? 'arrow_downward': 'arrow_upward'" 
           color="white" 
-          icon="autorenew" 
           size="sm" 
-          round 
+          round
           flat
         />
       </div>
-      <q-space />
+      
       <div>
         <q-btn 
+          class="mt-2"
           color="white" 
           icon="close" 
           size="sm" 
@@ -27,8 +28,9 @@
     </div>
 
     <q-table
-      class="bg-red-9"
       dark
+      ref="table"
+      class="bg-red-9"
       row-key="name"
       :rows="users_scores"
       :columns="columns"
@@ -52,8 +54,14 @@ export default {
     const runtime = useRuntimeStore()
     const { users_scores } = useUserStore()
     const switch_sort = ref(null)
+    const table = ref(null)
     const proper_title = computed(() => switch_sort.value ? "SHAME": "FAME");
     const { getUserScores } = init()
+
+    const switchSort = () => {
+      switch_sort.value = !switch_sort.value
+      table.value.sort("score")
+    }
 
     const columns = [
     {
@@ -73,7 +81,7 @@ export default {
         field: row => row.name,
         format: val => `${val}`,
       },
-      { name: 'score', align: 'center', label: 'Score', field: 'score' },
+      { name: 'score', align: 'center', label: 'Score', field: 'score', },
     ]
 
     const pagination = {
@@ -92,7 +100,9 @@ export default {
       proper_title,
       switch_sort,
       pagination,
-      users_scores
+      users_scores,
+      switchSort,
+      table
     }
   }
 }
